@@ -1,0 +1,218 @@
+[
+  {
+    "id": "expr_001",
+    "concept_id": "con_not_knowing",
+    "text": "chais pas",
+    "register": "familier_oral",
+    "frequency": 5,
+    "example": "Tu viens ce soir ? Chais pas, on verra.",
+    "notes": "Heavy contraction of je ne sais pas. Spoken only, never written outside dialogue."
+  },
+  {
+    "id": "expr_002",
+    "concept_id": "con_not_knowing",
+    "text": "je ne sais pas",
+    "register": "courant",
+    "frequency": 5,
+    "example": "Je ne sais pas où il habite.",
+    "notes": "The neutral form. Safe in writing and any formal speech."
+  },
+  {
+    "id": "expr_003",
+    "concept_id": "con_not_knowing",
+    "text": "je l'ignore",
+    "register": "soutenu",
+    "frequency": 3,
+    "example": "La raison de son départ, je l'ignore.",
+    "notes": "Sounds slightly cold or official. Common in journalism and administrative speech."
+  },
+  {
+    "id": "expr_004",
+    "concept_id": "con_tired",
+    "text": "crevé",
+    "register": "familier",
+    "frequency": 5,
+    "example": "Je suis crevé, je vais me coucher.",
+    "notes": "Adjective agrees with the subject (crevée for feminine)."
+  },
+  {
+    "id": "expr_005",
+    "concept_id": "con_tired",
+    "text": "fatigué",
+    "register": "courant",
+    "frequency": 5,
+    "example": "Tu as l'air fatigué, ça va ?",
+    "notes": "Neutral, fits any context."
+  },
+  {
+    "id": "expr_006",
+    "concept_id": "con_tired",
+    "text": "éreinté",
+    "register": "soutenu",
+    "frequency": 2,
+    "example": "Éreinté par cette journée, il s'effondra dans le fauteuil.",
+    "notes": "Literally suggests a broken back. Visual and a little dramatic."
+  },
+  {
+    "id": "expr_007",
+    "concept_id": "con_money",
+    "text": "thune",
+    "register": "argotique",
+    "frequency": 4,
+    "example": "J'ai plus de thune jusqu'à la fin du mois.",
+    "notes": "Very common in spoken French, especially among under 40s."
+  },
+  {
+    "id": "expr_008",
+    "concept_id": "con_money",
+    "text": "argent",
+    "register": "courant",
+    "frequency": 5,
+    "example": "Je n'ai pas assez d'argent pour ça.",
+    "notes": "The neutral term."
+  },
+  {
+    "id": "expr_009",
+    "concept_id": "con_money",
+    "text": "deniers",
+    "register": "littéraire",
+    "frequency": 1,
+    "example": "Il comptait ses deniers avec soin.",
+    "notes": "Archaic. Found in 19th century novels or deliberately old fashioned writing."
+  },
+  {
+    "id": "expr_010",
+    "concept_id": "con_greeting_evening",
+    "text": "salut",
+    "register": "familier",
+    "frequency": 5,
+    "example": "Salut, ça va ?",
+    "notes": "Only with people you tutoie. Works any time of day."
+  },
+  {
+    "id": "expr_011",
+    "concept_id": "con_greeting_evening",
+    "text": "bonsoir",
+    "register": "courant",
+    "frequency": 5,
+    "example": "Bonsoir madame, une table pour deux.",
+    "notes": "Standard evening greeting from roughly late afternoon onward."
+  },
+  {
+    "id": "expr_012",
+    "concept_id": "con_greeting_evening",
+    "text": "je vous salue",
+    "register": "soutenu",
+    "frequency": 1,
+    "example": "Je vous salue, monsieur le directeur.",
+    "notes": "Quite formal, slightly archaic in everyday use. Survives in fixed phrases."
+  },
+  {
+    "id": "expr_013",
+    "concept_id": "con_agreement",
+    "text": "carrément",
+    "register": "familier",
+    "frequency": 5,
+    "example": "On y va ? Carrément !",
+    "notes": "Strong agreement, very common in spoken French."
+  },
+  {
+    "id": "expr_014",
+    "concept_id": "con_agreement",
+    "text": "d'accord",
+    "register": "courant",
+    "frequency": 5,
+    "example": "On se voit demain ? D'accord.",
+    "notes": "The workhorse. Safe everywhere."
+  },
+  {
+    "id": "expr_015",
+    "concept_id": "con_agreement",
+    "text": "tout à fait",
+    "register": "soutenu",
+    "frequency": 4,
+    "example": "Vous êtes bien monsieur Dupont ? Tout à fait.",
+    "notes": "Slightly formal, polite, very common in service contexts."
+  },
+  {
+    "id": "expr_016",
+    "concept_id": "con_hungry",
+    "text": "j'ai la dalle",
+    "register": "argotique",
+    "frequency": 4,
+    "example": "On mange quand ? J'ai la dalle !",
+    "notes": "Very common slang. La dalle literally means a slab or paving stone."
+  },
+  {
+    "id": "expr_017",
+    "concept_id": "con_hungry",
+    "text": "j'ai faim",
+    "register": "courant",
+    "frequency": 5,
+    "example": "J'ai faim, on va déjeuner ?",
+    "notes": "The standard form."
+  },
+  {
+    "id": "expr_018",
+    "concept_id": "con_hungry",
+    "text": "je meurs de faim",
+    "register": "familier",
+    "frequency": 4,
+    "example": "Je meurs de faim, vivement le dîner.",
+    "notes": "Hyperbolic but extremely common."
+  },
+  {
+    "id": "expr_019",
+    "concept_id": "con_annoyed",
+    "text": "ça me saoule",
+    "register": "argotique",
+    "frequency": 5,
+    "example": "Ses excuses, ça me saoule.",
+    "notes": "From saouler, to get drunk. Now means to irritate intensely. Very common."
+  },
+  {
+    "id": "expr_020",
+    "concept_id": "con_annoyed",
+    "text": "ça m'énerve",
+    "register": "courant",
+    "frequency": 5,
+    "example": "Ça m'énerve quand il est en retard.",
+    "notes": "The everyday term."
+  },
+  {
+    "id": "expr_021",
+    "concept_id": "con_annoyed",
+    "text": "cela m'agace",
+    "register": "soutenu",
+    "frequency": 3,
+    "example": "Cette désinvolture m'agace au plus haut point.",
+    "notes": "Cooler, more controlled register. Note cela instead of ça."
+  },
+  {
+    "id": "expr_022",
+    "concept_id": "con_liking",
+    "text": "kiffer",
+    "register": "argotique",
+    "frequency": 5,
+    "example": "Je kiffe ce groupe.",
+    "notes": "From Arabic kif (pleasure). Strong slang, very common among younger speakers."
+  },
+  {
+    "id": "expr_023",
+    "concept_id": "con_liking",
+    "text": "aimer bien",
+    "register": "courant",
+    "frequency": 5,
+    "example": "J'aime bien ce film.",
+    "notes": "The standard way to say like. Without bien, aimer leans toward love."
+  },
+  {
+    "id": "expr_024",
+    "concept_id": "con_liking",
+    "text": "apprécier",
+    "register": "soutenu",
+    "frequency": 4,
+    "example": "J'apprécie beaucoup votre travail.",
+    "notes": "Polite, measured. Common in professional contexts."
+  }
+]

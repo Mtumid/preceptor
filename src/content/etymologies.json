@@ -1,0 +1,44 @@
+[
+  {
+    "expression_id": "expr_007",
+    "origin": "French argot, 19th century",
+    "first_attested": "1827",
+    "story": "Originally prison and underworld slang for a five franc piece. Migrated upward into general youth slang over the 20th century, the way bread did in English.",
+    "cognates": []
+  },
+  {
+    "expression_id": "expr_006",
+    "origin": "Old French",
+    "first_attested": "12th century",
+    "story": "Éreinter literally means to break someone's back, from reins (lower back, kidneys). Used metaphorically for exhaustion since at least the 1600s. The same root gives English the medical term renal.",
+    "cognates": ["renal (EN)", "rene (IT)"]
+  },
+  {
+    "expression_id": "expr_009",
+    "origin": "Latin",
+    "first_attested": "11th century",
+    "story": "From Latin denarius, a Roman silver coin. Same root as the dinar in Arabic and the d on old British pre-decimal pennies.",
+    "cognates": ["dinar (AR)", "denaro (IT)", "dinero (ES)"]
+  },
+  {
+    "expression_id": "expr_016",
+    "origin": "Argot, 20th century",
+    "first_attested": "around 1935",
+    "story": "Avoir la dalle (to have the slab) comes from an older slang meaning of dalle as the throat or gullet. The image is of an empty throat.",
+    "cognates": []
+  },
+  {
+    "expression_id": "expr_022",
+    "origin": "Arabic via Maghrebi French",
+    "first_attested": "1960s",
+    "story": "From Arabic kif, meaning pleasure or wellbeing, originally referring to the state induced by smoking cannabis. Entered French through North African communities and is now mainstream slang detached from its original drug context.",
+    "cognates": ["kif (AR)"]
+  },
+  {
+    "expression_id": "expr_019",
+    "origin": "French",
+    "first_attested": "1980s",
+    "story": "Literal sense: to make someone drunk. Figurative sense of irritating to the point of dizziness or stupor became dominant in casual speech from the late 20th century.",
+    "cognates": []
+  }
+]
