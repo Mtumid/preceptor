@@ -1,4 +1,6 @@
 import { create } from 'zustand'
+import { reviewCard } from '../utils/fsrs'
+import { saveLastSession, loadLastSession } from '../utils/storage'
 
 const useStore = create((set) => ({
   screen: 'home',
@@ -6,7 +8,7 @@ const useStore = create((set) => ({
   queue: [],
   currentIndex: 0,
   score: { correct: 0, total: 0 },
-  lastSession: null,
+  lastSession: loadLastSession(),
 
   startSession: (queue) => set({
     screen: 'exercise',
@@ -16,23 +18,34 @@ const useStore = create((set) => ({
     score: { correct: 0, total: 0 },
   }),
 
-  answerCard: (wasCorrect) => set((state) => ({
-    score: {
-      correct: state.score.correct + (wasCorrect ? 1 : 0),
-      total: state.score.total + 1,
-    },
-  })),
+  answerCard: (wasCorrect) => set((state) => {
+    const card = state.queue[state.currentIndex]
+    if (card) {
+      reviewCard(card.expression.id, wasCorrect)
+    }
+    return {
+      score: {
+        correct: state.score.correct + (wasCorrect ? 1 : 0),
+        total: state.score.total + 1,
+      },
+    }
+  }),
 
   nextCard: () => set((state) => {
     const nextIndex = state.currentIndex + 1
     if (nextIndex >= state.queue.length) {
-      return {
-        screen: 'results',
-        lastSession: { ...state.score },
+      const lastSession = {
+        correct: state.score.correct,
+        total: state.score.total,
+        completedAt: new Date().toISOString(),
       }
+      saveLastSession(lastSession)
+      return { screen: 'results', lastSession }
     }
     return { currentIndex: nextIndex }
   }),
+
+  resetProgress: () => set({ lastSession: null }),
 
   returnHome: () => set({ screen: 'home' }),
 }))

@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173)",
+      "Bash(npx playwright *)",
+      "Bash(npm ls *)",
+      "Bash(npm root *)",
+      "Bash(where playwright *)",
+      "Bash(npx --yes playwright --version)",
+      "Bash(ls C:/Users/mtumi/AppData/Roaming/npm/node_modules | grep playwright)",
+      "Read(//c/Users/mtumi/AppData/Roaming/npm/**)",
+      "Bash(node test_exercise.cjs)",
+      "Bash(cd c:/Gitrepos/preceptor && rm test_exercise.cjs)",
+      "Bash(node --input-type=module)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5174)",
+      "Bash(node -e ' *)"
+    ],
+    "additionalDirectories": [
+      "c:\\Gitrepos\\preceptor"
+    ]
+  }
+}

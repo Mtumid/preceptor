@@ -38,10 +38,10 @@ export default function ExerciseCard() {
         {MODE_LABELS[card.mode] ?? card.mode}
       </p>
 
-      {card.mode === 'recognise_register'  && <RecogniseRegister  {...modeProps} />}
-      {card.mode === 'produce_in_register' && <ProduceInRegister  {...modeProps} />}
-      {card.mode === 'translate_across'    && <TranslateAcross    {...modeProps} />}
-      {card.mode === 'spot_mismatch'       && <SpotTheMismatch    {...modeProps} />}
+      {card.mode === 'recognise_register'  && <RecogniseRegister  key={currentIndex} {...modeProps} />}
+      {card.mode === 'produce_in_register' && <ProduceInRegister  key={currentIndex} {...modeProps} />}
+      {card.mode === 'translate_across'    && <TranslateAcross    key={currentIndex} {...modeProps} />}
+      {card.mode === 'spot_mismatch'       && <SpotTheMismatch    key={currentIndex} {...modeProps} />}
 
       <EtymologyDrawer expression={
         card.mode === 'spot_mismatch' ? card.spotMismatch.expressionToShow : card.expression

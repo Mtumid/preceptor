@@ -2,6 +2,7 @@ import expressions from '../content/expressions.json'
 import concepts from '../content/concepts.json'
 import { contextRegisterMap, CONTEXTS } from './contextRegisterMap'
 import { normalizeRegister } from './registerConfig'
+import { loadState } from './storage'
 
 const MODES = ['recognise_register', 'produce_in_register', 'translate_across', 'spot_mismatch']
 
@@ -22,7 +23,79 @@ function pickRandomN(array, n) {
   return shuffle(array).slice(0, Math.min(n, array.length))
 }
 
+// For new cards, bias heavily toward recognise_register and produce_in_register
+// so the learner gets oriented before jumping into translation or mismatch tasks.
+function pickModeWeighted(availableModes, isNew) {
+  if (!isNew || availableModes.length === 1) return pickRandom(availableModes)
+
+  const weights = availableModes.map(mode =>
+    (mode === 'recognise_register' || mode === 'produce_in_register') ? 4 : 1
+  )
+  const total = weights.reduce((a, b) => a + b, 0)
+  let rand = Math.random() * total
+  for (let i = 0; i < availableModes.length; i++) {
+    rand -= weights[i]
+    if (rand < 0) return availableModes[i]
+  }
+  return availableModes[availableModes.length - 1]
+}
+
+function priorityQueue(storedCards, length) {
+  const expressionIds = new Set(expressions.map(e => e.id))
+  const now = new Date()
+
+  // Only stored cards whose expression still exists in content
+  const validStored = Object.entries(storedCards).filter(([id]) => expressionIds.has(id))
+
+  // Due: past or present
+  const due = validStored
+    .filter(([, c]) => new Date(c.due) <= now)
+    .sort((a, b) => new Date(a[1].due) - new Date(b[1].due))
+    .map(([id]) => id)
+
+  // New: no storage entry at all
+  const storedSet = new Set(Object.keys(storedCards))
+  const newIds = shuffle(expressions.filter(e => !storedSet.has(e.id)).map(e => e.id))
+
+  // Fallback: stored, not yet due, least recently reviewed first
+  const dueSet = new Set(due)
+  const fallback = validStored
+    .filter(([id]) => !dueSet.has(id))
+    .sort((a, b) => {
+      const da = a[1].last_review ? new Date(a[1].last_review) : new Date(0)
+      const db = b[1].last_review ? new Date(b[1].last_review) : new Date(0)
+      return da - db
+    })
+    .map(([id]) => id)
+
+  const selected = []
+
+  const takeDue = Math.min(length, due.length)
+  selected.push(...due.slice(0, takeDue))
+
+  const takeNew = Math.min(length - selected.length, newIds.length)
+  selected.push(...newIds.slice(0, takeNew))
+
+  const takeFallback = Math.min(length - selected.length, fallback.length)
+  selected.push(...fallback.slice(0, takeFallback))
+
+  // Very rare: content is almost exhausted, allow repeats rather than crash
+  if (selected.length > 0) {
+    while (selected.length < length) {
+      selected.push(selected[Math.floor(Math.random() * selected.length)])
+    }
+  }
+
+  return selected
+}
+
 export function buildSession(length) {
+  if (expressions.length === 0) return []
+
+  const storedState = loadState()
+  const storedCards = storedState?.cards ?? {}
+
+  const expressionMap = Object.fromEntries(expressions.map(e => [e.id, e]))
   const conceptMap = Object.fromEntries(concepts.map(c => [c.id, c]))
 
   const byConceptId = {}
@@ -31,9 +104,12 @@ export function buildSession(length) {
     byConceptId[expr.concept_id].push(expr)
   }
 
-  const selected = pickRandomN(expressions, length)
+  const selectedIds = priorityQueue(storedCards, length)
 
-  return selected.map(expression => {
+  return selectedIds.map(expressionId => {
+    const expression = expressionMap[expressionId]
+    if (!expression) return null
+
     const concept = conceptMap[expression.concept_id]
     const conceptExpressions = byConceptId[expression.concept_id] ?? []
     const others = conceptExpressions.filter(e => e.id !== expression.id)
@@ -44,7 +120,9 @@ export function buildSession(length) {
       availableModes = availableModes.filter(m => m !== 'spot_mismatch')
     }
 
-    const mode = pickRandom(availableModes)
+    const cardData = storedCards[expressionId]
+    const isNew = !cardData || cardData.state === 0
+    const mode = pickModeWeighted(availableModes, isNew)
 
     const card = { expression, concept, conceptExpressions, mode }
 
@@ -93,10 +171,9 @@ export function buildSession(length) {
       }
 
       const fits = fittingRegisters.includes(normalizeRegister(expressionToShow.register))
-
       card.spotMismatch = { context, expressionToShow, fits }
     }
 
     return card
-  })
+  }).filter(Boolean)
 }
