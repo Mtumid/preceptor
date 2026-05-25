@@ -6,6 +6,15 @@ import { loadState } from './storage'
 
 const MODES = ['recognise_register', 'produce_in_register', 'translate_across', 'spot_mismatch']
 
+const expressionMap = Object.fromEntries(expressions.map(e => [e.id, e]))
+const conceptMap = Object.fromEntries(concepts.map(c => [c.id, c]))
+
+const byConceptId = {}
+for (const expr of expressions) {
+  if (!byConceptId[expr.concept_id]) byConceptId[expr.concept_id] = []
+  byConceptId[expr.concept_id].push(expr)
+}
+
 function shuffle(array) {
   const arr = [...array]
   for (let i = arr.length - 1; i > 0; i--) {
@@ -99,10 +108,82 @@ export function countThemeExpressions(themeId) {
   return expressions.filter(e => themeConcepts.has(e.concept_id)).length
 }
 
+// Builds a single exercise card for one expression. Used by both buildSession
+// and practiseThisExpression (which creates a one-card queue).
+export function buildCardForExpression(expressionId, storedCards = {}) {
+  const expression = expressionMap[expressionId]
+  if (!expression) return null
+
+  const concept = conceptMap[expression.concept_id]
+  const conceptExpressions = byConceptId[expression.concept_id] ?? []
+  const others = conceptExpressions.filter(e => e.id !== expression.id)
+
+  let availableModes = [...MODES]
+  if (others.length === 0) availableModes = ['recognise_register']
+  if (conceptExpressions.length < 2) {
+    availableModes = availableModes.filter(m => m !== 'spot_mismatch')
+  }
+
+  const cardData = storedCards[expressionId]
+  const isNew = !cardData || cardData.state === 0
+  const mode = pickModeWeighted(availableModes, isNew)
+
+  const card = { expression, concept, conceptExpressions, mode }
+
+  if (mode === 'produce_in_register') {
+    const distractorsNeeded = 2 - Math.min(others.length, 2)
+    const fromOthers = pickRandomN(others, 2)
+    const fromElsewhere = distractorsNeeded > 0
+      ? pickRandomN(expressions.filter(e => e.concept_id !== expression.concept_id), distractorsNeeded)
+      : []
+    card.choices = shuffle([expression, ...fromOthers, ...fromElsewhere].slice(0, 3))
+    card.targetRegister = normalizeRegister(expression.register)
+  }
+
+  if (mode === 'translate_across') {
+    if (others.length === 0) {
+      card.mode = 'recognise_register'
+      return card
+    }
+    const target = pickRandom(others)
+    const distractors = pickRandomN(
+      expressions.filter(e => e.concept_id !== expression.concept_id),
+      2
+    )
+    card.choices = shuffle([target, ...distractors])
+    card.targetExpression = target
+    card.targetRegister = normalizeRegister(target.register)
+  }
+
+  if (mode === 'spot_mismatch') {
+    const context = pickRandom(CONTEXTS)
+    const fittingRegisters = contextRegisterMap[context]
+    const shouldFit = Math.random() > 0.5
+
+    let expressionToShow = expression
+
+    if (shouldFit) {
+      const fitting = conceptExpressions.filter(
+        e => fittingRegisters.includes(normalizeRegister(e.register))
+      )
+      if (fitting.length > 0) expressionToShow = pickRandom(fitting)
+    } else {
+      const misfitting = conceptExpressions.filter(
+        e => !fittingRegisters.includes(normalizeRegister(e.register))
+      )
+      if (misfitting.length > 0) expressionToShow = pickRandom(misfitting)
+    }
+
+    const fits = fittingRegisters.includes(normalizeRegister(expressionToShow.register))
+    card.spotMismatch = { context, expressionToShow, fits }
+  }
+
+  return card
+}
+
 export function buildSession(length, themeId = null) {
   if (expressions.length === 0) return []
 
-  // Filter the expression pool to the chosen theme, or use everything for Mixed.
   let pool = expressions
   if (themeId) {
     const themeConcepts = new Set(
@@ -116,87 +197,9 @@ export function buildSession(length, themeId = null) {
   const storedState = loadState()
   const storedCards = storedState?.cards ?? {}
 
-  const expressionMap = Object.fromEntries(expressions.map(e => [e.id, e]))
-  const conceptMap = Object.fromEntries(concepts.map(c => [c.id, c]))
-
-  // byConceptId uses the full expression set so cross-register choices
-  // remain available regardless of which theme is active.
-  const byConceptId = {}
-  for (const expr of expressions) {
-    if (!byConceptId[expr.concept_id]) byConceptId[expr.concept_id] = []
-    byConceptId[expr.concept_id].push(expr)
-  }
-
   const selectedIds = priorityQueue(pool, storedCards, length)
 
-  return selectedIds.map(expressionId => {
-    const expression = expressionMap[expressionId]
-    if (!expression) return null
-
-    const concept = conceptMap[expression.concept_id]
-    const conceptExpressions = byConceptId[expression.concept_id] ?? []
-    const others = conceptExpressions.filter(e => e.id !== expression.id)
-
-    let availableModes = [...MODES]
-    if (others.length === 0) availableModes = ['recognise_register']
-    if (conceptExpressions.length < 2) {
-      availableModes = availableModes.filter(m => m !== 'spot_mismatch')
-    }
-
-    const cardData = storedCards[expressionId]
-    const isNew = !cardData || cardData.state === 0
-    const mode = pickModeWeighted(availableModes, isNew)
-
-    const card = { expression, concept, conceptExpressions, mode }
-
-    if (mode === 'produce_in_register') {
-      const distractorsNeeded = 2 - Math.min(others.length, 2)
-      const fromOthers = pickRandomN(others, 2)
-      const fromElsewhere = distractorsNeeded > 0
-        ? pickRandomN(expressions.filter(e => e.concept_id !== expression.concept_id), distractorsNeeded)
-        : []
-      card.choices = shuffle([expression, ...fromOthers, ...fromElsewhere].slice(0, 3))
-      card.targetRegister = normalizeRegister(expression.register)
-    }
-
-    if (mode === 'translate_across') {
-      if (others.length === 0) {
-        card.mode = 'recognise_register'
-        return card
-      }
-      const target = pickRandom(others)
-      const distractors = pickRandomN(
-        expressions.filter(e => e.concept_id !== expression.concept_id),
-        2
-      )
-      card.choices = shuffle([target, ...distractors])
-      card.targetExpression = target
-      card.targetRegister = normalizeRegister(target.register)
-    }
-
-    if (mode === 'spot_mismatch') {
-      const context = pickRandom(CONTEXTS)
-      const fittingRegisters = contextRegisterMap[context]
-      const shouldFit = Math.random() > 0.5
-
-      let expressionToShow = expression
-
-      if (shouldFit) {
-        const fitting = conceptExpressions.filter(
-          e => fittingRegisters.includes(normalizeRegister(e.register))
-        )
-        if (fitting.length > 0) expressionToShow = pickRandom(fitting)
-      } else {
-        const misfitting = conceptExpressions.filter(
-          e => !fittingRegisters.includes(normalizeRegister(e.register))
-        )
-        if (misfitting.length > 0) expressionToShow = pickRandom(misfitting)
-      }
-
-      const fits = fittingRegisters.includes(normalizeRegister(expressionToShow.register))
-      card.spotMismatch = { context, expressionToShow, fits }
-    }
-
-    return card
-  }).filter(Boolean)
+  return selectedIds
+    .map(id => buildCardForExpression(id, storedCards))
+    .filter(Boolean)
 }

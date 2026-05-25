@@ -6,10 +6,13 @@ import themes from '../content/themes.json'
 import { loadState, clearState, storageAvailable } from '../utils/storage'
 import expressions from '../content/expressions.json'
 import concepts from '../content/concepts.json'
+import { getDailyExpression } from '../utils/dailyExpression'
 
 const expressionMap = Object.fromEntries(expressions.map(e => [e.id, e]))
 const conceptMap = Object.fromEntries(concepts.map(c => [c.id, c]))
 const validExpressionIds = new Set(expressions.map(e => e.id))
+const dailyExpression = getDailyExpression()
+const dailyConcept = conceptMap[dailyExpression?.concept_id]
 
 function computeStats() {
   const state = loadState()
@@ -57,6 +60,8 @@ export default function HomeScreen() {
   const resetProgress = useStore(s => s.resetProgress)
   const selectedThemeId = useStore(s => s.selectedThemeId)
   const setTheme = useStore(s => s.setTheme)
+  const openDailyExpression = useStore(s => s.openDailyExpression)
+  const openExpressionDetail = useStore(s => s.openExpressionDetail)
   const [statsKey, setStatsKey] = useState(0)
 
   const stats = computeStats(statsKey)
@@ -90,6 +95,20 @@ export default function HomeScreen() {
         </p>
       </div>
 
+      {/* Expression of the Day teaser */}
+      {dailyExpression && (
+        <button
+          onClick={openDailyExpression}
+          className="w-full max-w-sm mb-6 bg-stone-800 text-white rounded-2xl shadow-sm p-5 text-left hover:bg-stone-700 transition-colors"
+        >
+          <p className="text-xs text-stone-400 uppercase tracking-wide mb-2">Expression of the day</p>
+          <p className="text-2xl font-bold font-serif mb-1">{dailyExpression.text}</p>
+          {dailyConcept && (
+            <p className="text-sm text-stone-400">{dailyConcept.gloss_en}</p>
+          )}
+        </button>
+      )}
+
       {/* Stats */}
       <div className="w-full max-w-sm mb-6 bg-white rounded-2xl shadow-sm border border-stone-200 p-5">
         <div className="grid grid-cols-3 gap-4 text-center">
@@ -112,13 +131,17 @@ export default function HomeScreen() {
             <p className="text-xs text-stone-400 uppercase tracking-wide mb-3">Trickiest right now</p>
             <div className="space-y-2.5">
               {stats.trickiest.map(({ id, expression, concept }) => (
-                <div key={id} className="flex items-center justify-between gap-3">
+                <button
+                  key={id}
+                  onClick={() => openExpressionDetail(id)}
+                  className="w-full flex items-center justify-between gap-3 hover:opacity-70 transition-opacity"
+                >
                   <span className="font-serif font-bold text-stone-800 text-base">{expression.text}</span>
                   <div className="flex items-center gap-2 shrink-0">
                     <RegisterPill register={expression.register} size="sm" />
                     <span className="text-xs text-stone-400">{concept.gloss_en}</span>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </div>

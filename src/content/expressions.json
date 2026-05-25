@@ -5,7 +5,9 @@
     "text": "chais pas",
     "register": "familier_oral",
     "frequency": 5,
-    "example": "Tu viens ce soir ? Chais pas, on verra.",
+    "examples": [
+      { "fr": "Tu viens ce soir ? Chais pas, on verra.", "en": "You coming tonight? Dunno, we'll see." }
+    ],
     "notes": "Heavy contraction of je ne sais pas. Spoken only, never written outside dialogue."
   },
   {
@@ -14,7 +16,9 @@
     "text": "je ne sais pas",
     "register": "courant",
     "frequency": 5,
-    "example": "Je ne sais pas où il habite.",
+    "examples": [
+      { "fr": "Je ne sais pas où il habite.", "en": "I don't know where he lives." }
+    ],
     "notes": "The neutral form. Safe in writing and any formal speech."
   },
   {
@@ -23,7 +27,9 @@
     "text": "je l'ignore",
     "register": "soutenu",
     "frequency": 3,
-    "example": "La raison de son départ, je l'ignore.",
+    "examples": [
+      { "fr": "La raison de son départ, je l'ignore.", "en": "As to the reason for his departure, I cannot say." }
+    ],
     "notes": "Sounds slightly cold or official. Common in journalism and administrative speech."
   },
   {
@@ -32,7 +38,9 @@
     "text": "crevé",
     "register": "familier",
     "frequency": 5,
-    "example": "Je suis crevé, je vais me coucher.",
+    "examples": [
+      { "fr": "Je suis crevé, je vais me coucher.", "en": "I'm knackered, I'm off to bed." }
+    ],
     "notes": "Adjective agrees with the subject (crevée for feminine)."
   },
   {
@@ -41,7 +49,9 @@
     "text": "fatigué",
     "register": "courant",
     "frequency": 5,
-    "example": "Tu as l'air fatigué, ça va ?",
+    "examples": [
+      { "fr": "Tu as l'air fatigué, ça va ?", "en": "You look tired, are you alright?" }
+    ],
     "notes": "Neutral, fits any context."
   },
   {
@@ -50,7 +60,11 @@
     "text": "éreinté",
     "register": "soutenu",
     "frequency": 2,
-    "example": "Éreinté par cette journée, il s'effondra dans le fauteuil.",
+    "examples": [
+      { "fr": "Éreinté par cette journée, il s'effondra dans le fauteuil.", "en": "Worn out by the day, he collapsed into the armchair." },
+      { "fr": "Les soldats rentraient éreintés du front.", "en": "The soldiers returned from the front utterly spent." },
+      { "fr": "Éreinté mais content, il acheva enfin son manuscrit.", "en": "Exhausted but pleased, he at last completed his manuscript." }
+    ],
     "notes": "Literally suggests a broken back. Visual and a little dramatic."
   },
   {
@@ -59,7 +73,11 @@
     "text": "thune",
     "register": "argotique",
     "frequency": 4,
-    "example": "J'ai plus de thune jusqu'à la fin du mois.",
+    "examples": [
+      { "fr": "J'ai plus de thune jusqu'à la fin du mois.", "en": "I'm skint until the end of the month." },
+      { "fr": "Prête-moi un peu de thune, je te rends ça demain.", "en": "Lend us a bit of cash, I'll pay you back tomorrow." },
+      { "fr": "Faut de la thune pour vivre à Paris.", "en": "You need dosh to live in Paris." }
+    ],
     "notes": "Very common in spoken French, especially among under 40s."
   },
   {
@@ -68,7 +86,9 @@
     "text": "argent",
     "register": "courant",
     "frequency": 5,
-    "example": "Je n'ai pas assez d'argent pour ça.",
+    "examples": [
+      { "fr": "Je n'ai pas assez d'argent pour ça.", "en": "I don't have enough money for that." }
+    ],
     "notes": "The neutral term."
   },
   {
@@ -77,7 +97,11 @@
     "text": "deniers",
     "register": "littéraire",
     "frequency": 1,
-    "example": "Il comptait ses deniers avec soin.",
+    "examples": [
+      { "fr": "Il comptait ses deniers avec soin.", "en": "He counted his coins with care." },
+      { "fr": "Le vieil avare gardait ses deniers sous le matelas.", "en": "The old miser kept his pennies beneath the mattress." },
+      { "fr": "Sans deniers ni soutien, elle dut quitter Paris.", "en": "Without funds or support, she was obliged to leave Paris." }
+    ],
     "notes": "Archaic. Found in 19th century novels or deliberately old fashioned writing."
   },
   {
@@ -86,7 +110,9 @@
     "text": "salut",
     "register": "familier",
     "frequency": 5,
-    "example": "Salut, ça va ?",
+    "examples": [
+      { "fr": "Salut, ça va ?", "en": "Hey, how are you?" }
+    ],
     "notes": "Only with people you tutoie. Works any time of day."
   },
   {
@@ -95,7 +121,9 @@
     "text": "bonsoir",
     "register": "courant",
     "frequency": 5,
-    "example": "Bonsoir madame, une table pour deux.",
+    "examples": [
+      { "fr": "Bonsoir madame, une table pour deux.", "en": "Good evening, a table for two." }
+    ],
     "notes": "Standard evening greeting from roughly late afternoon onward."
   },
   {
@@ -104,7 +132,9 @@
     "text": "je vous salue",
     "register": "soutenu",
     "frequency": 1,
-    "example": "Je vous salue, monsieur le directeur.",
+    "examples": [
+      { "fr": "Je vous salue, monsieur le directeur.", "en": "Good day to you, Director." }
+    ],
     "notes": "Quite formal, slightly archaic in everyday use. Survives in fixed phrases."
   },
   {
@@ -113,7 +143,9 @@
     "text": "carrément",
     "register": "familier",
     "frequency": 5,
-    "example": "On y va ? Carrément !",
+    "examples": [
+      { "fr": "On y va ? Carrément !", "en": "Shall we go? Absolutely!" }
+    ],
     "notes": "Strong agreement, very common in spoken French."
   },
   {
@@ -122,7 +154,9 @@
     "text": "d'accord",
     "register": "courant",
     "frequency": 5,
-    "example": "On se voit demain ? D'accord.",
+    "examples": [
+      { "fr": "On se voit demain ? D'accord.", "en": "See you tomorrow? Agreed." }
+    ],
     "notes": "The workhorse. Safe everywhere."
   },
   {
@@ -131,7 +165,9 @@
     "text": "tout à fait",
     "register": "soutenu",
     "frequency": 4,
-    "example": "Vous êtes bien monsieur Dupont ? Tout à fait.",
+    "examples": [
+      { "fr": "Vous êtes bien monsieur Dupont ? Tout à fait.", "en": "You are Monsieur Dupont? Indeed I am." }
+    ],
     "notes": "Slightly formal, polite, very common in service contexts."
   },
   {
@@ -140,7 +176,11 @@
     "text": "j'ai la dalle",
     "register": "argotique",
     "frequency": 4,
-    "example": "On mange quand ? J'ai la dalle !",
+    "examples": [
+      { "fr": "On mange quand ? J'ai la dalle !", "en": "When are we eating? I'm starving!" },
+      { "fr": "T'as pas un truc à grignoter ? J'ai la dalle.", "en": "Got anything to nibble on? I'm famished." },
+      { "fr": "Après cette rando, j'avais une de ces dalles !", "en": "After that hike, I had such an appetite!" }
+    ],
     "notes": "Very common slang. La dalle literally means a slab or paving stone."
   },
   {
@@ -149,7 +189,9 @@
     "text": "j'ai faim",
     "register": "courant",
     "frequency": 5,
-    "example": "J'ai faim, on va déjeuner ?",
+    "examples": [
+      { "fr": "J'ai faim, on va déjeuner ?", "en": "I'm hungry, shall we have lunch?" }
+    ],
     "notes": "The standard form."
   },
   {
@@ -158,7 +200,9 @@
     "text": "je meurs de faim",
     "register": "familier",
     "frequency": 4,
-    "example": "Je meurs de faim, vivement le dîner.",
+    "examples": [
+      { "fr": "Je meurs de faim, vivement le dîner.", "en": "I'm starving, roll on dinner." }
+    ],
     "notes": "Hyperbolic but extremely common."
   },
   {
@@ -167,7 +211,11 @@
     "text": "ça me saoule",
     "register": "argotique",
     "frequency": 5,
-    "example": "Ses excuses, ça me saoule.",
+    "examples": [
+      { "fr": "Ses excuses, ça me saoule.", "en": "His excuses, I'm sick of them." },
+      { "fr": "Ça me saoule de devoir tout recommencer.", "en": "Having to start over is doing my head in." },
+      { "fr": "Sa façon de parler, ça me saoule au plus haut point.", "en": "The way he talks gets right on my nerves." }
+    ],
     "notes": "From saouler, to get drunk. Now means to irritate intensely. Very common."
   },
   {
@@ -176,7 +224,9 @@
     "text": "ça m'énerve",
     "register": "courant",
     "frequency": 5,
-    "example": "Ça m'énerve quand il est en retard.",
+    "examples": [
+      { "fr": "Ça m'énerve quand il est en retard.", "en": "It annoys me when he's late." }
+    ],
     "notes": "The everyday term."
   },
   {
@@ -185,7 +235,9 @@
     "text": "cela m'agace",
     "register": "soutenu",
     "frequency": 3,
-    "example": "Cette désinvolture m'agace au plus haut point.",
+    "examples": [
+      { "fr": "Cette désinvolture m'agace au plus haut point.", "en": "This casualness irritates me greatly." }
+    ],
     "notes": "Cooler, more controlled register. Note cela instead of ça."
   },
   {
@@ -194,7 +246,11 @@
     "text": "kiffer",
     "register": "argotique",
     "frequency": 5,
-    "example": "Je kiffe ce groupe.",
+    "examples": [
+      { "fr": "Je kiffe ce groupe.", "en": "I'm really into this band." },
+      { "fr": "Tu kifferais l'ambiance, c'est trop bien.", "en": "You'd love the vibe, it's so good." },
+      { "fr": "Il kiffe grave la cuisine japonaise.", "en": "He's mad about Japanese food." }
+    ],
     "notes": "From Arabic kif (pleasure). Strong slang, very common among younger speakers."
   },
   {
@@ -203,7 +259,9 @@
     "text": "aimer bien",
     "register": "courant",
     "frequency": 5,
-    "example": "J'aime bien ce film.",
+    "examples": [
+      { "fr": "J'aime bien ce film.", "en": "I quite like this film." }
+    ],
     "notes": "The standard way to say like. Without bien, aimer leans toward love."
   },
   {
@@ -212,7 +270,9 @@
     "text": "apprécier",
     "register": "soutenu",
     "frequency": 4,
-    "example": "J'apprécie beaucoup votre travail.",
+    "examples": [
+      { "fr": "J'apprécie beaucoup votre travail.", "en": "I greatly appreciate your work." }
+    ],
     "notes": "Polite, measured. Common in professional contexts."
   },
   {
@@ -221,7 +281,11 @@
     "text": "raquer",
     "register": "argotique",
     "frequency": 4,
-    "example": "Il a fallu raquer 50 balles pour entrer.",
+    "examples": [
+      { "fr": "Il a fallu raquer 50 balles pour entrer.", "en": "We had to fork out 50 quid to get in." },
+      { "fr": "J'en peux plus de raquer pour cet abonnement.", "en": "I'm done coughing up for this subscription." },
+      { "fr": "C'est toi qui raques cette fois ?", "en": "You picking up the tab this time?" }
+    ],
     "notes": "Slightly grudging tone. Implies the price was annoying."
   },
   {
@@ -230,7 +294,9 @@
     "text": "payer",
     "register": "courant",
     "frequency": 5,
-    "example": "Je vais payer l'addition.",
+    "examples": [
+      { "fr": "Je vais payer l'addition.", "en": "I'll pay the bill." }
+    ],
     "notes": "The neutral term."
   },
   {
@@ -239,7 +305,9 @@
     "text": "s'acquitter de",
     "register": "soutenu",
     "frequency": 2,
-    "example": "Il s'est acquitté de sa dette le mois dernier.",
+    "examples": [
+      { "fr": "Il s'est acquitté de sa dette le mois dernier.", "en": "He discharged his debt last month." }
+    ],
     "notes": "Formal, often financial or legal. Implies fulfilling an obligation."
   },
   {
@@ -248,7 +316,11 @@
     "text": "piger",
     "register": "argotique",
     "frequency": 5,
-    "example": "T'as pigé ce qu'il a dit ?",
+    "examples": [
+      { "fr": "T'as pigé ce qu'il a dit ?", "en": "Did you get what he said?" },
+      { "fr": "J'ai rien pigé à son explication.", "en": "I didn't get a word of his explanation." },
+      { "fr": "Elle pige vite, cette gamine.", "en": "She catches on quickly, that kid." }
+    ],
     "notes": "Very common spoken. Often used in the negative: j'ai rien pigé."
   },
   {
@@ -257,7 +329,9 @@
     "text": "comprendre",
     "register": "courant",
     "frequency": 5,
-    "example": "Je comprends ce que tu veux dire.",
+    "examples": [
+      { "fr": "Je comprends ce que tu veux dire.", "en": "I understand what you mean." }
+    ],
     "notes": "Workhorse verb."
   },
   {
@@ -266,7 +340,9 @@
     "text": "saisir",
     "register": "soutenu",
     "frequency": 3,
-    "example": "Je saisis mal la nuance que vous évoquez.",
+    "examples": [
+      { "fr": "Je saisis mal la nuance que vous évoquez.", "en": "I cannot quite grasp the nuance you are alluding to." }
+    ],
     "notes": "Implies catching a subtle or intellectual point. Common in academic and formal contexts."
   },
   {
@@ -275,7 +351,11 @@
     "text": "bosser",
     "register": "familier",
     "frequency": 5,
-    "example": "J'ai bossé jusqu'à minuit hier.",
+    "examples": [
+      { "fr": "J'ai bossé jusqu'à minuit hier.", "en": "I grafted till midnight yesterday." },
+      { "fr": "Tu bosses où en ce moment ?", "en": "Where are you working these days?" },
+      { "fr": "Faut bosser dur si on veut y arriver.", "en": "We've got to graft hard if we want to make it." }
+    ],
     "notes": "Extremely common spoken French for to work. Not vulgar, just informal."
   },
   {
@@ -284,7 +364,9 @@
     "text": "travailler dur",
     "register": "courant",
     "frequency": 5,
-    "example": "Il travaille dur pour soutenir sa famille.",
+    "examples": [
+      { "fr": "Il travaille dur pour soutenir sa famille.", "en": "He works hard to support his family." }
+    ],
     "notes": "The standard neutral form."
   },
   {
@@ -293,7 +375,9 @@
     "text": "s'évertuer",
     "register": "soutenu",
     "frequency": 2,
-    "example": "Il s'évertue à résoudre ce problème depuis des semaines.",
+    "examples": [
+      { "fr": "Il s'évertue à résoudre ce problème depuis des semaines.", "en": "He has been striving to resolve this problem for weeks." }
+    ],
     "notes": "Implies persistent effort against difficulty. Common in writing."
   },
   {
@@ -302,7 +386,9 @@
     "text": "se faire suer",
     "register": "familier",
     "frequency": 4,
-    "example": "On se fait suer ici, on s'en va ?",
+    "examples": [
+      { "fr": "On se fait suer ici, on s'en va ?", "en": "We're bored stiff here, shall we head off?" }
+    ],
     "notes": "Literally to make oneself sweat. Conveys restless boredom."
   },
   {
@@ -311,7 +397,9 @@
     "text": "s'ennuyer",
     "register": "courant",
     "frequency": 5,
-    "example": "Les enfants s'ennuient en attendant.",
+    "examples": [
+      { "fr": "Les enfants s'ennuient en attendant.", "en": "The children are getting bored waiting." }
+    ],
     "notes": "The neutral verb."
   },
   {
@@ -320,7 +408,11 @@
     "text": "languir",
     "register": "littéraire",
     "frequency": 2,
-    "example": "Il languissait dans sa province natale.",
+    "examples": [
+      { "fr": "Il languissait dans sa province natale.", "en": "He languished in his native province." },
+      { "fr": "Loin d'elle, il languissait sans cesse.", "en": "Far from her, he pined without ceasing." },
+      { "fr": "Que de jours à languir dans cette pension morne !", "en": "How many days spent languishing in that dreary boarding house!" }
+    ],
     "notes": "Suggests soulful weariness or pining. Beautiful in literary contexts, overwrought in casual ones."
   }
 ]

@@ -18,7 +18,7 @@ export default function RecogniseRegister({ card, onAnswer }) {
         {expression.text}
       </p>
       <p className="text-base italic text-center text-stone-500 mb-8 leading-relaxed">
-        {expression.example}
+        {expression.examples[0].fr}
       </p>
 
       <p className="text-sm font-medium text-stone-500 text-center mb-4 uppercase tracking-wide">
