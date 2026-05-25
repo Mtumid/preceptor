@@ -40,12 +40,12 @@ function pickModeWeighted(availableModes, isNew) {
   return availableModes[availableModes.length - 1]
 }
 
-function priorityQueue(storedCards, length) {
-  const expressionIds = new Set(expressions.map(e => e.id))
+function priorityQueue(pool, storedCards, length) {
+  const poolIds = new Set(pool.map(e => e.id))
   const now = new Date()
 
-  // Only stored cards whose expression still exists in content
-  const validStored = Object.entries(storedCards).filter(([id]) => expressionIds.has(id))
+  // Only stored cards that exist within this pool
+  const validStored = Object.entries(storedCards).filter(([id]) => poolIds.has(id))
 
   // Due: past or present
   const due = validStored
@@ -53,11 +53,11 @@ function priorityQueue(storedCards, length) {
     .sort((a, b) => new Date(a[1].due) - new Date(b[1].due))
     .map(([id]) => id)
 
-  // New: no storage entry at all
+  // New: no storage entry at all (within this pool)
   const storedSet = new Set(Object.keys(storedCards))
-  const newIds = shuffle(expressions.filter(e => !storedSet.has(e.id)).map(e => e.id))
+  const newIds = shuffle(pool.filter(e => !storedSet.has(e.id)).map(e => e.id))
 
-  // Fallback: stored, not yet due, least recently reviewed first
+  // Fallback: stored in pool, not yet due, least recently reviewed first
   const dueSet = new Set(due)
   const fallback = validStored
     .filter(([id]) => !dueSet.has(id))
@@ -79,7 +79,7 @@ function priorityQueue(storedCards, length) {
   const takeFallback = Math.min(length - selected.length, fallback.length)
   selected.push(...fallback.slice(0, takeFallback))
 
-  // Very rare: content is almost exhausted, allow repeats rather than crash
+  // Very rare: content almost exhausted, allow repeats rather than crash
   if (selected.length > 0) {
     while (selected.length < length) {
       selected.push(selected[Math.floor(Math.random() * selected.length)])
@@ -89,8 +89,29 @@ function priorityQueue(storedCards, length) {
   return selected
 }
 
-export function buildSession(length) {
+// Returns how many expressions are available for the given theme (or all if null).
+// Used by SessionPicker to show the "Only N available" notice.
+export function countThemeExpressions(themeId) {
+  if (!themeId) return expressions.length
+  const themeConcepts = new Set(
+    concepts.filter(c => c.themes?.includes(themeId)).map(c => c.id)
+  )
+  return expressions.filter(e => themeConcepts.has(e.concept_id)).length
+}
+
+export function buildSession(length, themeId = null) {
   if (expressions.length === 0) return []
+
+  // Filter the expression pool to the chosen theme, or use everything for Mixed.
+  let pool = expressions
+  if (themeId) {
+    const themeConcepts = new Set(
+      concepts.filter(c => c.themes?.includes(themeId)).map(c => c.id)
+    )
+    pool = expressions.filter(e => themeConcepts.has(e.concept_id))
+  }
+
+  if (pool.length === 0) return []
 
   const storedState = loadState()
   const storedCards = storedState?.cards ?? {}
@@ -98,13 +119,15 @@ export function buildSession(length) {
   const expressionMap = Object.fromEntries(expressions.map(e => [e.id, e]))
   const conceptMap = Object.fromEntries(concepts.map(c => [c.id, c]))
 
+  // byConceptId uses the full expression set so cross-register choices
+  // remain available regardless of which theme is active.
   const byConceptId = {}
   for (const expr of expressions) {
     if (!byConceptId[expr.concept_id]) byConceptId[expr.concept_id] = []
     byConceptId[expr.concept_id].push(expr)
   }
 
-  const selectedIds = priorityQueue(storedCards, length)
+  const selectedIds = priorityQueue(pool, storedCards, length)
 
   return selectedIds.map(expressionId => {
     const expression = expressionMap[expressionId]

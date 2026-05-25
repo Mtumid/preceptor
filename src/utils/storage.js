@@ -1,5 +1,6 @@
 const STATE_KEY = 'preceptor_state_v1'
 const SESSION_KEY = 'preceptor_last_session_v1'
+const THEME_KEY = 'preceptor_theme_v1'
 const CURRENT_VERSION = 1
 
 function probe() {
@@ -87,5 +88,27 @@ export function saveLastSession(data) {
     localStorage.setItem(SESSION_KEY, JSON.stringify(data))
   } catch (e) {
     console.warn('[preceptor] Could not save last session:', e)
+  }
+}
+
+export function loadTheme() {
+  if (!storageAvailable) return null
+  try {
+    return localStorage.getItem(THEME_KEY) || null
+  } catch {
+    return null
+  }
+}
+
+export function saveTheme(themeId) {
+  if (!storageAvailable) return
+  try {
+    if (themeId) {
+      localStorage.setItem(THEME_KEY, themeId)
+    } else {
+      localStorage.removeItem(THEME_KEY)
+    }
+  } catch (e) {
+    console.warn('[preceptor] Could not save theme:', e)
   }
 }

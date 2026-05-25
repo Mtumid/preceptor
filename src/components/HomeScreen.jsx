@@ -2,6 +2,7 @@ import { useState } from 'react'
 import useStore from '../store/useStore'
 import SessionPicker from './SessionPicker'
 import RegisterPill from './RegisterPill'
+import themes from '../content/themes.json'
 import { loadState, clearState, storageAvailable } from '../utils/storage'
 import expressions from '../content/expressions.json'
 import concepts from '../content/concepts.json'
@@ -45,8 +46,7 @@ function computeStats() {
 function relativeDate(isoString) {
   const then = new Date(isoString)
   const now = new Date()
-  const diffMs = now - then
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+  const diffDays = Math.floor((now - then) / (1000 * 60 * 60 * 24))
   if (diffDays === 0) return 'today'
   if (diffDays === 1) return 'yesterday'
   return `${diffDays} days ago`
@@ -55,9 +55,10 @@ function relativeDate(isoString) {
 export default function HomeScreen() {
   const lastSession = useStore(s => s.lastSession)
   const resetProgress = useStore(s => s.resetProgress)
+  const selectedThemeId = useStore(s => s.selectedThemeId)
+  const setTheme = useStore(s => s.setTheme)
   const [statsKey, setStatsKey] = useState(0)
 
-  // statsKey changing forces computeStats() to re-run after a reset
   const stats = computeStats(statsKey)
 
   function handleReset() {
@@ -79,6 +80,7 @@ export default function HomeScreen() {
         </div>
       )}
 
+      {/* Title */}
       <div className="max-w-sm w-full text-center mb-8">
         <h1 className="text-4xl font-bold text-stone-800 mb-2 font-serif">
           Le Précepteur
@@ -88,6 +90,7 @@ export default function HomeScreen() {
         </p>
       </div>
 
+      {/* Stats */}
       <div className="w-full max-w-sm mb-6 bg-white rounded-2xl shadow-sm border border-stone-200 p-5">
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
@@ -122,8 +125,40 @@ export default function HomeScreen() {
         )}
       </div>
 
+      {/* Theme picker */}
+      <div className="w-full max-w-sm mb-5">
+        <p className="text-xs text-stone-400 uppercase tracking-wide mb-2.5">Focus on</p>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => setTheme(null)}
+            className={`px-4 py-1.5 rounded-full text-sm font-medium border-2 transition-colors ${
+              selectedThemeId === null
+                ? 'bg-stone-800 text-white border-stone-800'
+                : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400'
+            }`}
+          >
+            Mixed
+          </button>
+          {themes.map(theme => (
+            <button
+              key={theme.id}
+              onClick={() => setTheme(theme.id)}
+              className={`px-4 py-1.5 rounded-full text-sm font-medium border-2 transition-colors ${
+                selectedThemeId === theme.id
+                  ? 'bg-stone-800 text-white border-stone-800'
+                  : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400'
+              }`}
+            >
+              {theme.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Session length buttons */}
       <SessionPicker />
 
+      {/* Footer */}
       <div className="mt-8 text-center">
         {lastSession && (
           <p className="text-sm text-stone-400 mb-4">

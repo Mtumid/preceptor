@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { reviewCard } from '../utils/fsrs'
-import { saveLastSession, loadLastSession } from '../utils/storage'
+import { saveLastSession, loadLastSession, loadTheme, saveTheme } from '../utils/storage'
+import { buildSession } from '../utils/buildSession'
 
 const useStore = create((set) => ({
   screen: 'home',
@@ -9,14 +10,23 @@ const useStore = create((set) => ({
   currentIndex: 0,
   score: { correct: 0, total: 0 },
   lastSession: loadLastSession(),
+  selectedThemeId: loadTheme(),
 
-  startSession: (queue) => set({
-    screen: 'exercise',
-    sessionLength: queue.length,
-    queue,
-    currentIndex: 0,
-    score: { correct: 0, total: 0 },
+  startSession: (length) => set((state) => {
+    const queue = buildSession(length, state.selectedThemeId)
+    return {
+      screen: 'exercise',
+      sessionLength: queue.length,
+      queue,
+      currentIndex: 0,
+      score: { correct: 0, total: 0 },
+    }
   }),
+
+  setTheme: (themeId) => {
+    saveTheme(themeId)
+    set({ selectedThemeId: themeId })
+  },
 
   answerCard: (wasCorrect) => set((state) => {
     const card = state.queue[state.currentIndex]

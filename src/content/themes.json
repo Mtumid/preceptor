@@ -1,0 +1,17 @@
+[
+  {
+    "id": "theme_everyday",
+    "name": "Everyday speech",
+    "description": "The bread and butter of daily conversation. Greetings, agreement, basic reactions."
+  },
+  {
+    "id": "theme_body_mind",
+    "name": "Body and mind",
+    "description": "Physical states and feelings. Where register reveals the most personality."
+  },
+  {
+    "id": "theme_money_work",
+    "name": "Money and work",
+    "description": "Argot is especially rich here. Soutenu forms reveal class and context."
+  }
+]

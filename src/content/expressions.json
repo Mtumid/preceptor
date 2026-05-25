@@ -214,5 +214,113 @@
     "frequency": 4,
     "example": "J'apprécie beaucoup votre travail.",
     "notes": "Polite, measured. Common in professional contexts."
+  },
+  {
+    "id": "expr_025",
+    "concept_id": "con_paying",
+    "text": "raquer",
+    "register": "argotique",
+    "frequency": 4,
+    "example": "Il a fallu raquer 50 balles pour entrer.",
+    "notes": "Slightly grudging tone. Implies the price was annoying."
+  },
+  {
+    "id": "expr_026",
+    "concept_id": "con_paying",
+    "text": "payer",
+    "register": "courant",
+    "frequency": 5,
+    "example": "Je vais payer l'addition.",
+    "notes": "The neutral term."
+  },
+  {
+    "id": "expr_027",
+    "concept_id": "con_paying",
+    "text": "s'acquitter de",
+    "register": "soutenu",
+    "frequency": 2,
+    "example": "Il s'est acquitté de sa dette le mois dernier.",
+    "notes": "Formal, often financial or legal. Implies fulfilling an obligation."
+  },
+  {
+    "id": "expr_028",
+    "concept_id": "con_understanding",
+    "text": "piger",
+    "register": "argotique",
+    "frequency": 5,
+    "example": "T'as pigé ce qu'il a dit ?",
+    "notes": "Very common spoken. Often used in the negative: j'ai rien pigé."
+  },
+  {
+    "id": "expr_029",
+    "concept_id": "con_understanding",
+    "text": "comprendre",
+    "register": "courant",
+    "frequency": 5,
+    "example": "Je comprends ce que tu veux dire.",
+    "notes": "Workhorse verb."
+  },
+  {
+    "id": "expr_030",
+    "concept_id": "con_understanding",
+    "text": "saisir",
+    "register": "soutenu",
+    "frequency": 3,
+    "example": "Je saisis mal la nuance que vous évoquez.",
+    "notes": "Implies catching a subtle or intellectual point. Common in academic and formal contexts."
+  },
+  {
+    "id": "expr_031",
+    "concept_id": "con_working_hard",
+    "text": "bosser",
+    "register": "familier",
+    "frequency": 5,
+    "example": "J'ai bossé jusqu'à minuit hier.",
+    "notes": "Extremely common spoken French for to work. Not vulgar, just informal."
+  },
+  {
+    "id": "expr_032",
+    "concept_id": "con_working_hard",
+    "text": "travailler dur",
+    "register": "courant",
+    "frequency": 5,
+    "example": "Il travaille dur pour soutenir sa famille.",
+    "notes": "The standard neutral form."
+  },
+  {
+    "id": "expr_033",
+    "concept_id": "con_working_hard",
+    "text": "s'évertuer",
+    "register": "soutenu",
+    "frequency": 2,
+    "example": "Il s'évertue à résoudre ce problème depuis des semaines.",
+    "notes": "Implies persistent effort against difficulty. Common in writing."
+  },
+  {
+    "id": "expr_034",
+    "concept_id": "con_bored",
+    "text": "se faire suer",
+    "register": "familier",
+    "frequency": 4,
+    "example": "On se fait suer ici, on s'en va ?",
+    "notes": "Literally to make oneself sweat. Conveys restless boredom."
+  },
+  {
+    "id": "expr_035",
+    "concept_id": "con_bored",
+    "text": "s'ennuyer",
+    "register": "courant",
+    "frequency": 5,
+    "example": "Les enfants s'ennuient en attendant.",
+    "notes": "The neutral verb."
+  },
+  {
+    "id": "expr_036",
+    "concept_id": "con_bored",
+    "text": "languir",
+    "register": "littéraire",
+    "frequency": 2,
+    "example": "Il languissait dans sa province natale.",
+    "notes": "Suggests soulful weariness or pining. Beautiful in literary contexts, overwrought in casual ones."
   }
 ]

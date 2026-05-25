@@ -40,5 +40,33 @@
     "first_attested": "1980s",
     "story": "Literal sense: to make someone drunk. Figurative sense of irritating to the point of dizziness or stupor became dominant in casual speech from the late 20th century.",
     "cognates": []
+  },
+  {
+    "expression_id": "expr_025",
+    "origin": "French argot, 19th century",
+    "first_attested": "around 1890",
+    "story": "From an older slang sense of raque meaning a worn-out horse, then by extension a worn-out wallet. The verb evolved to mean handing over money reluctantly.",
+    "cognates": []
+  },
+  {
+    "expression_id": "expr_028",
+    "origin": "French argot, 19th century",
+    "first_attested": "around 1900",
+    "story": "From the verb piger meaning to measure or gauge, originally in the trades. The leap to mental grasp followed the pattern of English to get or to catch on.",
+    "cognates": []
+  },
+  {
+    "expression_id": "expr_031",
+    "origin": "French argot, late 19th century",
+    "first_attested": "around 1880",
+    "story": "Derives from bosse meaning hump or bump, with the figurative sense of bending one's back over work. The image is of physical labour, even when the work is mental.",
+    "cognates": []
+  },
+  {
+    "expression_id": "expr_036",
+    "origin": "Latin",
+    "first_attested": "12th century",
+    "story": "From Latin languere, to be weak or faint. The same root gives English languid and languish. In French it kept its noble, melancholic register where English flattened to mere fatigue.",
+    "cognates": ["languid (EN)", "languish (EN)", "languire (IT)"]
   }
 ]

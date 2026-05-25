@@ -2,41 +2,73 @@
   {
     "id": "con_not_knowing",
     "gloss_en": "not knowing something",
-    "note": "Core conversational filler. The contracted form dominates spoken French."
+    "note": "Core conversational filler. The contracted form dominates spoken French.",
+    "themes": ["theme_everyday"]
   },
   {
     "id": "con_tired",
     "gloss_en": "being tired",
-    "note": "Register reveals a lot here. Slang implies physical exhaustion, literary forms imply weariness of soul."
+    "note": "Register reveals a lot here. Slang implies physical exhaustion, literary forms imply weariness of soul.",
+    "themes": ["theme_body_mind"]
   },
   {
     "id": "con_money",
     "gloss_en": "money",
-    "note": "French argot for money is enormous. A few common ones cover most needs."
+    "note": "French argot for money is enormous. A few common ones cover most needs.",
+    "themes": ["theme_money_work"]
   },
   {
     "id": "con_greeting_evening",
     "gloss_en": "greeting someone in the evening",
-    "note": "Bonsoir kicks in roughly from late afternoon. Salut works any time but only with people you tutoie."
+    "note": "Bonsoir kicks in roughly from late afternoon. Salut works any time but only with people you tutoie.",
+    "themes": ["theme_everyday"]
   },
   {
     "id": "con_agreement",
     "gloss_en": "expressing agreement",
-    "note": "Register here doubles as a class marker more than most concepts."
+    "note": "Register here doubles as a class marker more than most concepts.",
+    "themes": ["theme_everyday"]
   },
   {
     "id": "con_hungry",
     "gloss_en": "being hungry",
-    "note": "Slang forms are vivid and physical, literary forms invoke deprivation."
+    "note": "Slang forms are vivid and physical, literary forms invoke deprivation.",
+    "themes": ["theme_body_mind"]
   },
   {
     "id": "con_annoyed",
     "gloss_en": "being annoyed or fed up",
-    "note": "The slang options are colourful. Soutenu forms sound deliberately cold."
+    "note": "The slang options are colourful. Soutenu forms sound deliberately cold.",
+    "themes": ["theme_body_mind", "theme_everyday"]
   },
   {
     "id": "con_liking",
     "gloss_en": "liking or enjoying something",
-    "note": "Aimer covers love and like in French, context and intensifiers do the work."
+    "note": "Aimer covers love and like in French, context and intensifiers do the work.",
+    "themes": ["theme_everyday"]
+  },
+  {
+    "id": "con_paying",
+    "gloss_en": "paying for something",
+    "note": "Soutenu forms come from finance and law. Argot forms are vivid and slightly transgressive.",
+    "themes": ["theme_money_work"]
+  },
+  {
+    "id": "con_understanding",
+    "gloss_en": "understanding or getting something",
+    "note": "Slang forms imply quick grasp. Soutenu forms imply careful intellectual capture.",
+    "themes": ["theme_everyday"]
+  },
+  {
+    "id": "con_working_hard",
+    "gloss_en": "working hard, grafting",
+    "note": "French argot is unusually rich for hard work. The slang variants all imply physical or mental strain.",
+    "themes": ["theme_money_work"]
+  },
+  {
+    "id": "con_bored",
+    "gloss_en": "being bored or fed up of waiting",
+    "note": "Slang forms are visceral. Soutenu forms imply existential weariness rather than mere boredom.",
+    "themes": ["theme_body_mind"]
   }
 ]
