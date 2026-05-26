@@ -5,12 +5,13 @@ import ProduceInRegister from './modes/ProduceInRegister'
 import TranslateAcross from './modes/TranslateAcross'
 import SpotTheMismatch from './modes/SpotTheMismatch'
 import EtymologyDrawer from './EtymologyDrawer'
+import { IconArrow } from './Ornaments'
 
-const MODE_LABELS = {
-  recognise_register:  'Recognise the register',
-  produce_in_register: 'Produce in register',
-  translate_across:    'Translate across registers',
-  spot_mismatch:       'Spot the mismatch',
+const MODE_NOTES = {
+  recognise_register:  'Where does this expression sit on the dial?',
+  produce_in_register: 'Choose the right phrase for the target register.',
+  translate_across:    'Find the equivalent at a different formality.',
+  spot_mismatch:       'Would a native use this here? Trust your ear.',
 }
 
 export default function ExerciseCard() {
@@ -31,11 +32,16 @@ export default function ExerciseCard() {
   if (!card) return null
 
   const modeProps = { card, onAnswer: handleAnswer }
+  const isLast = currentIndex + 1 >= queue.length
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-stone-200 p-6">
-      <p className="text-xs text-stone-400 text-center uppercase tracking-wide mb-6">
-        {MODE_LABELS[card.mode] ?? card.mode}
+    <div className="lp-exercise-card">
+      <p style={{
+        textAlign: 'center', marginBottom: 22,
+        fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 14,
+        color: 'var(--color-ink-3)',
+      }}>
+        {MODE_NOTES[card.mode]}
       </p>
 
       {card.mode === 'recognise_register'  && <RecogniseRegister  key={currentIndex} {...modeProps} />}
@@ -48,12 +54,11 @@ export default function ExerciseCard() {
       } />
 
       {answered && (
-        <button
-          onClick={nextCard}
-          className="mt-4 w-full py-4 rounded-xl bg-stone-800 text-white text-base font-semibold hover:bg-stone-700 transition-colors"
-        >
-          Continue
-        </button>
+        <div style={{ marginTop: 22 }} className="lp-fade-in">
+          <button className="lp-btn lp-btn-primary lp-btn-full lp-btn-lg" onClick={nextCard}>
+            {isLast ? 'See results' : 'Continue'} <IconArrow size={14} />
+          </button>
+        </div>
       )}
     </div>
   )

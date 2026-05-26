@@ -1,48 +1,59 @@
 import useStore from '../store/useStore'
-import { buildSession } from '../utils/buildSession'
+import { BrandMark, Divider, IconArrow } from './Ornaments'
 
 function getMessage(correct, total) {
-  if (total === 0) return 'A clean slate. Ready for the next one.'
+  if (total === 0)        return { title: 'A clean slate',   msg: 'Ready for the next one whenever you are.' }
   const pct = correct / total
-  if (pct >= 0.9) return 'Excellent. You are reading the room like a native.'
-  if (pct >= 0.75) return 'Strong session. Your register ear is developing nicely.'
-  if (pct >= 0.5) return 'Good effort. The tricky ones take time, and that is fine.'
-  return 'Every session adds something, even when it does not feel like it.'
+  if (pct >= 0.9)         return { title: 'Excellent',       msg: 'You are reading the room like a native.' }
+  if (pct >= 0.75)        return { title: 'Strong session',  msg: 'Your register ear is developing nicely.' }
+  if (pct >= 0.5)         return { title: 'Good effort',     msg: 'The tricky ones take time, and that is fine.' }
+  return                         { title: 'Onward',          msg: "Every session adds something, even when it doesn't feel like it." }
 }
 
 export default function ResultsScreen() {
   const { score, sessionLength, startSession, returnHome } = useStore()
+  const { title, msg } = getMessage(score.correct, score.total)
 
   function handleAgain() {
-    const queue = buildSession(sessionLength)
-    startSession(queue)
+    startSession(sessionLength)
   }
 
   return (
-    <div className="min-h-screen bg-stone-50 flex flex-col items-center justify-center px-4 py-12">
-      <div className="max-w-sm w-full bg-white rounded-2xl shadow-sm border border-stone-200 p-8 text-center">
-        <p className="text-sm text-stone-400 uppercase tracking-wide mb-4">Session complete</p>
+    <div className="lp-shell">
+      <div className="lp-masthead">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{ width: 30, height: 30, display: 'grid', placeItems: 'center', color: 'var(--color-terra)' }}>
+            <BrandMark size={30} />
+          </span>
+          <div>
+            <div className="brand-title">Le&nbsp;Précepteur</div>
+            <div className="brand-sub">l'art du registre</div>
+          </div>
+        </div>
+      </div>
 
-        <p className="text-6xl font-bold text-stone-800 mb-1">
-          {score.correct}
-          <span className="text-3xl text-stone-400 font-normal">/{score.total}</span>
-        </p>
-        <p className="text-sm text-stone-400 mb-6">correct</p>
+      <div className="lp-card lp-results-card">
+        <div className="lp-smallcaps" style={{ color: 'var(--color-terra)', marginBottom: 6 }}>
+          End of session
+        </div>
 
-        <p className="text-base text-stone-600 leading-relaxed mb-8">
-          {getMessage(score.correct, score.total)}
-        </p>
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 4 }}>
+          <span className="lp-results-numeral">{score.correct}</span>
+          <span className="lp-results-of">/{score.total}</span>
+        </div>
+        <div className="lp-smallcaps" style={{ marginTop: 8 }}>correct</div>
 
-        <button
-          onClick={handleAgain}
-          className="w-full py-4 rounded-xl bg-stone-800 text-white text-base font-semibold hover:bg-stone-700 transition-colors mb-3"
-        >
-          Another session
+        <Divider ornament="fleuron" />
+
+        <div style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 22, color: 'var(--color-ink)', marginBottom: 8 }}>
+          {title}.
+        </div>
+        <div className="lp-results-msg">{msg}</div>
+
+        <button className="lp-btn lp-btn-primary lp-btn-full lp-btn-lg" onClick={handleAgain}>
+          Another session <IconArrow size={14} />
         </button>
-        <button
-          onClick={returnHome}
-          className="w-full py-3 text-sm text-stone-500 hover:text-stone-700 transition-colors"
-        >
+        <button className="lp-btn lp-btn-ghost lp-btn-full" style={{ marginTop: 6 }} onClick={returnHome}>
           Back home
         </button>
       </div>

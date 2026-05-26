@@ -3,7 +3,13 @@ import expressions from '../content/expressions.json'
 import concepts from '../content/concepts.json'
 import etymologies from '../content/etymologies.json'
 import { getCardProgress } from '../utils/storage'
+import { getRegisterConfig } from '../utils/registerConfig'
 import RegisterPill from './RegisterPill'
+import RegisterDial from './RegisterDial'
+import {
+  IconArrowLeft, IconArrow, IconCalendar,
+  FleuronHeart, FleuronRotated, Pilcrow, Quill,
+} from './Ornaments'
 
 const expressionMap = Object.fromEntries(expressions.map(e => [e.id, e]))
 const conceptMap = Object.fromEntries(concepts.map(c => [c.id, c]))
@@ -18,12 +24,12 @@ for (const expr of expressions) {
 }
 
 function getProgressBadge(card) {
-  if (!card || card.state === 0) return { label: 'New', bg: '#9ca3af' }
-  if (card.state === 1) return { label: 'Learning', bg: '#2563eb' }
-  if (card.state === 3) return { label: 'Relearning', bg: '#d97706' }
+  if (!card || card.state === 0) return { label: 'New',        bg: '#9ca3af' }
+  if (card.state === 1)          return { label: 'Learning',   bg: '#2563eb' }
+  if (card.state === 3)          return { label: 'Relearning', bg: '#d97706' }
   const stability = card.stability ?? 0
-  if (stability >= 21) return { label: 'Mastered', bg: '#059669' }
-  return { label: 'Review', bg: '#059669' }
+  if (stability >= 21)           return { label: 'Mastered',   bg: 'var(--color-good)' }
+  return                                { label: 'Review',     bg: 'var(--color-good)' }
 }
 
 export default function ExpressionDetail({ initialExpressionId, onBack, onPractise, subtitle = null }) {
@@ -41,100 +47,130 @@ export default function ExpressionDetail({ initialExpressionId, onBack, onPracti
   const badge = getProgressBadge(card)
 
   return (
-    <div className="min-h-screen bg-stone-50 flex flex-col">
-      <div className="px-4 pt-10 pb-4 max-w-sm mx-auto w-full">
-        <div className="flex items-center justify-between">
-          <button
-            onClick={onBack}
-            className="text-stone-400 hover:text-stone-600 transition-colors text-sm"
-          >
-            ← Back
-          </button>
-          <span
-            className="text-xs font-medium px-2.5 py-1 rounded-full text-white"
-            style={{ backgroundColor: badge.bg }}
-          >
-            {badge.label}
-          </span>
+    <div className="lp-shell">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <button className="lp-back-link" onClick={onBack}>
+          <IconArrowLeft size={12} /> Back
+        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {subtitle && (
+            <span className="lp-smallcaps" style={{ color: 'var(--color-terra)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <IconCalendar size={12} /> Expression du jour
+            </span>
+          )}
+          <span className="lp-badge" style={{ background: badge.bg }}>{badge.label}</span>
         </div>
-        {subtitle && (
-          <p className="text-xs text-stone-400 mt-1.5">{subtitle}</p>
-        )}
+      </div>
+      {subtitle && (
+        <div style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 13, color: 'var(--color-ink-3)', marginTop: 8 }}>
+          {subtitle}
+        </div>
+      )}
+
+      <div className="lp-detail-hero">
+        <div className="fr">{expression.text}</div>
+        <div className="en">{concept?.gloss_en}</div>
       </div>
 
-      <div className="flex-1 px-4 pb-16 max-w-sm mx-auto w-full">
-        <div className="text-center mb-6">
-          <p className="text-5xl font-bold font-serif text-stone-800 mb-3 leading-tight">
-            {expression.text}
-          </p>
-          <RegisterPill register={expression.register} />
-          {concept && (
-            <p className="text-stone-400 text-sm mt-2">{concept.gloss_en}</p>
-          )}
+      <div style={{ marginBottom: 28 }}>
+        <RegisterDial register={expression.register} />
+        <div style={{
+          textAlign: 'center', marginTop: 14,
+          fontFamily: 'var(--font-serif)', fontStyle: 'italic',
+          fontSize: 14, color: 'var(--color-ink-3)',
+        }}>
+          {getRegisterConfig(expression.register).tagline}
         </div>
+      </div>
 
-        <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-5 mb-4">
-          <p className="text-xs text-stone-400 uppercase tracking-wide mb-3">
-            {expression.examples.length === 1 ? 'Example' : 'Examples'}
-          </p>
-          <div className="space-y-4">
-            {expression.examples.map((ex, i) => (
-              <div key={i}>
-                <p className="text-sm italic text-stone-700 leading-relaxed">{ex.fr}</p>
-                <p className="text-sm text-stone-400 leading-relaxed mt-0.5">{ex.en}</p>
-              </div>
-            ))}
-          </div>
+      <div className="lp-sec-head">
+        <span className="ornament"><FleuronHeart size={13} /></span>
+        <span className="label">{expression.examples.length === 1 ? 'Example' : 'Examples'}</span>
+        <span className="rule" />
+      </div>
+
+      <div className="lp-card">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          {expression.examples.map((ex, i) => (
+            <div key={i}>
+              <div className="lp-example-fr">"{ex.fr}"</div>
+              <div className="lp-example-en">{ex.en}</div>
+            </div>
+          ))}
         </div>
+      </div>
 
-        {expression.notes && (
-          <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-5 mb-4">
-            <p className="text-xs text-stone-400 uppercase tracking-wide mb-2">Notes</p>
-            <p className="text-sm text-stone-600 leading-relaxed">{expression.notes}</p>
+      {expression.notes && (
+        <>
+          <div className="lp-sec-head">
+            <span className="ornament"><Pilcrow size={13} /></span>
+            <span className="label">Note</span>
+            <span className="rule" />
           </div>
-        )}
-
-        {variants.length > 1 && (
-          <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-5 mb-4">
-            <p className="text-xs text-stone-400 uppercase tracking-wide mb-3">All registers</p>
-            <div className="space-y-2">
-              {variants.map(v => (
-                <button
-                  key={v.id}
-                  onClick={() => setExpressionId(v.id)}
-                  className={`w-full text-left flex items-center justify-between px-3 py-2.5 rounded-xl border-2 transition-colors ${
-                    v.id === expressionId
-                      ? 'border-stone-800 bg-stone-50'
-                      : 'border-stone-100 hover:border-stone-300'
-                  }`}
-                >
-                  <span className="font-serif font-bold text-stone-800 text-base">{v.text}</span>
-                  <RegisterPill register={v.register} size="sm" />
-                </button>
-              ))}
+          <div className="lp-card">
+            <div style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 15, color: 'var(--color-ink-2)', lineHeight: 1.55 }}>
+              {expression.notes}
             </div>
           </div>
-        )}
+        </>
+      )}
 
-        {etymology && (
-          <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-5 mb-4">
-            <p className="text-xs text-stone-400 uppercase tracking-wide mb-2">Etymology</p>
-            <p className="text-sm text-stone-400 mb-2">
+      {variants.length > 1 && (
+        <>
+          <div className="lp-sec-head">
+            <span className="ornament"><FleuronRotated size={13} /></span>
+            <span className="label">Across all registers</span>
+            <span className="rule" />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {variants.map(v => (
+              <button
+                key={v.id}
+                className="lp-variant"
+                data-active={v.id === expressionId}
+                onClick={() => setExpressionId(v.id)}
+              >
+                <div>
+                  <div className="v-fr">{v.text}</div>
+                  <div className="v-sub">{getRegisterConfig(v.register).tagline}</div>
+                </div>
+                <RegisterPill register={v.register} size="sm" />
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
+      {etymology && (
+        <>
+          <div className="lp-sec-head">
+            <span className="ornament"><Quill size={14} /></span>
+            <span className="label">Etymology</span>
+            <span className="rule" />
+          </div>
+          <div className="lp-card lp-etymology">
+            <div className="ety-origin">
               {etymology.origin}
-              {etymology.first_attested && ` · first attested ${etymology.first_attested}`}
-            </p>
-            <p className="text-sm text-stone-600 leading-relaxed">{etymology.story}</p>
+              {etymology.first_attested && (
+                <span style={{ color: 'var(--color-ink-3)' }}> · first attested {etymology.first_attested}</span>
+              )}
+            </div>
+            <div className="ety-story">{etymology.story}</div>
             {etymology.cognates?.length > 0 && (
-              <p className="text-sm text-stone-400 mt-2">{etymology.cognates.join(' · ')}</p>
+              <div className="ety-cognates">
+                {etymology.cognates.map((c, i) => <span key={i} className="cog">{c}</span>)}
+              </div>
             )}
           </div>
-        )}
+        </>
+      )}
 
+      <div style={{ marginTop: 28 }}>
         <button
+          className="lp-btn lp-btn-primary lp-btn-full lp-btn-lg"
           onClick={() => onPractise(expressionId)}
-          className="w-full py-4 rounded-2xl bg-stone-800 text-white font-semibold text-base hover:bg-stone-700 transition-colors mt-2"
         >
-          Practise this now
+          Practise this now <IconArrow size={14} />
         </button>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import etymologies from '../content/etymologies.json'
+import { Quill, IconChevron } from './Ornaments'
 
 const etymologyMap = Object.fromEntries(etymologies.map(e => [e.expression_id, e]))
 
@@ -10,28 +11,61 @@ export default function EtymologyDrawer({ expression }) {
   if (!data) return null
 
   return (
-    <div className="mt-4 border-t border-stone-200">
+    <div style={{ marginTop: 18, borderTop: '1px dashed var(--color-rule)' }}>
       <button
         onClick={() => setOpen(o => !o)}
-        className="w-full flex items-center justify-between py-3 text-sm text-stone-400 hover:text-stone-600 transition-colors"
+        style={{
+          width: '100%',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '12px 0',
+          fontFamily: 'var(--font-sans)',
+          fontSize: 11,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          fontWeight: 600,
+          color: 'var(--color-ink-3)',
+          background: 'none', border: 'none', cursor: 'pointer',
+        }}
       >
-        <span className="font-medium">Word history</span>
-        <span className="text-lg leading-none">{open ? '−' : '+'}</span>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--color-terra)' }}>
+          <Quill size={14} />
+          <span style={{ color: 'var(--color-ink-3)' }}>Word history</span>
+        </span>
+        <span style={{ color: 'var(--color-ink-3)', transform: open ? 'rotate(90deg)' : 'none', transition: 'transform 150ms ease-out' }}>
+          <IconChevron size={12} />
+        </span>
       </button>
 
       {open && (
-        <div className="pb-4 text-sm text-stone-600 leading-relaxed space-y-2">
-          <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-stone-400 mb-3">
-            <span><strong>Origin:</strong> {data.origin}</span>
+        <div className="lp-fade-in" style={{ paddingBottom: 12 }}>
+          <div style={{
+            fontFamily: 'var(--font-serif)', fontStyle: 'italic',
+            fontSize: 13, color: 'var(--color-terra)', marginBottom: 8,
+          }}>
+            {data.origin}
             {data.first_attested && (
-              <span><strong>First attested:</strong> {data.first_attested}</span>
+              <span style={{ color: 'var(--color-ink-3)' }}> · first attested {data.first_attested}</span>
             )}
           </div>
-          <p>{data.story}</p>
-          {data.cognates.length > 0 && (
-            <p className="text-xs text-stone-400">
-              <strong>Related words:</strong> {data.cognates.join(', ')}
-            </p>
+          <p style={{
+            fontFamily: 'var(--font-serif)', fontSize: 15, lineHeight: 1.55,
+            color: 'var(--color-ink-2)', margin: 0,
+          }}>
+            {data.story}
+          </p>
+          {data.cognates?.length > 0 && (
+            <div style={{ marginTop: 10, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {data.cognates.map((c, i) => (
+                <span key={i} style={{
+                  fontFamily: 'var(--font-sans)', fontSize: 11,
+                  padding: '3px 9px',
+                  border: '1px solid var(--color-rule)',
+                  borderRadius: 999,
+                  color: 'var(--color-ink-3)',
+                  background: 'var(--color-bg-2)',
+                }}>{c}</span>
+              ))}
+            </div>
           )}
         </div>
       )}

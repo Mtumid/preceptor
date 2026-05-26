@@ -2,6 +2,7 @@ import { useState } from 'react'
 import RegisterPill from '../RegisterPill'
 import { getRegisterConfig } from '../../utils/registerConfig'
 import { contextRegisterMap } from '../../utils/contextRegisterMap'
+import { IconCheck, IconX } from '../Ornaments'
 
 export default function SpotTheMismatch({ card, onAnswer }) {
   const [selected, setSelected] = useState(null)
@@ -10,89 +11,78 @@ export default function SpotTheMismatch({ card, onAnswer }) {
 
   function handleSelect(answer) {
     if (selected !== null) return
-    const wasCorrect = answer === fits
     setSelected(answer)
-    onAnswer(wasCorrect)
+    onAnswer(answer === fits)
   }
 
   const answered = selected !== null
+  const wasCorrect = answered && selected === fits
   const fittingRegisters = contextRegisterMap[context]
 
   return (
     <div>
-      <p className="text-sm font-medium text-stone-500 text-center mb-2 uppercase tracking-wide">
-        Spot the mismatch
-      </p>
-
-      <div className="bg-stone-100 rounded-xl p-4 mb-4 text-center">
-        <p className="text-xs text-stone-500 uppercase tracking-wide mb-1">Context</p>
-        <p className="text-base font-semibold text-stone-700">{context}</p>
+      <div className="lp-ctx-card">
+        <div style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600, color: 'var(--color-ink-3)', marginBottom: 6 }}>
+          Context
+        </div>
+        <div className="ctx-text">{context}</div>
       </div>
 
-      <div className="border-2 border-stone-200 rounded-xl p-5 mb-6 text-center">
-        <p className="text-3xl font-bold font-serif text-stone-800 mb-3">
+      <div style={{ textAlign: 'center', marginBottom: 22, padding: '20px 16px', background: 'var(--color-surface)', border: '1px solid var(--color-rule)', borderRadius: 6 }}>
+        <div style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 30, fontWeight: 500, color: 'var(--color-ink)', marginBottom: 10 }}>
           {expressionToShow.text}
-        </p>
+        </div>
         <RegisterPill register={expressionToShow.register} />
       </div>
 
-      <p className="text-sm text-center text-stone-500 mb-4">
-        Does this expression fit the context?
-      </p>
-
-      <div className="grid grid-cols-2 gap-3 mb-6">
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 18 }}>
         {[true, false].map(choice => {
           const label = choice ? 'Fits' : 'Wrong register'
+          const hint  = choice ? 'this expression suits the context'
+                               : 'the register does not match'
           const isSelected = selected === choice
-
-          let bgColor = '#ffffff'
-          let borderColor = '#e7e5e4'
-          let textColor = '#44403c'
-
-          if (answered) {
-            const isThisCorrect = choice === fits
-            if (isThisCorrect) {
-              bgColor = '#f0fdf4'
-              borderColor = '#16a34a'
-              textColor = '#15803d'
-            } else if (isSelected) {
-              bgColor = '#fef2f2'
-              borderColor = '#dc2626'
-              textColor = '#b91c1c'
-            } else {
-              bgColor = '#fafaf9'
-              textColor = '#a8a29e'
-              borderColor = '#e7e5e4'
-            }
-          }
+          const isThisCorrect = choice === fits
+          const state = answered ? (isThisCorrect ? 'correct' : isSelected ? 'wrong' : 'dim') : undefined
 
           return (
             <button
               key={String(choice)}
+              className="lp-choice"
+              data-state={state}
               onClick={() => handleSelect(choice)}
               disabled={answered}
-              className="py-4 px-4 rounded-xl text-base font-semibold border-2 transition-all duration-150"
-              style={{ backgroundColor: bgColor, borderColor, color: textColor }}
+              style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 4 }}
             >
-              {answered && choice === fits && <span className="mr-1">✓</span>}
-              {answered && isSelected && choice !== fits && <span className="mr-1">✗</span>}
-              {label}
+              <div className="choice-text plain">{label}</div>
+              <div style={{
+                fontSize: 11,
+                color: state === 'correct' ? 'var(--color-good)'
+                     : state === 'wrong'   ? 'var(--color-bad)'
+                     : 'var(--color-ink-3)',
+              }}>
+                {hint}
+              </div>
             </button>
           )
         })}
       </div>
 
       {answered && (
-        <div className={`rounded-xl p-4 border ${selected === fits ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'}`}>
-          <p className={`text-sm font-semibold mb-1 ${selected === fits ? 'text-emerald-700' : 'text-red-700'}`}>
-            {selected === fits ? 'Correct.' : `Not quite. That expression ${fits ? 'fits' : 'does not fit'} this context.`}
-          </p>
-          <p className="text-sm text-stone-600 leading-relaxed">
-            For <strong>{context.toLowerCase()}</strong>, the fitting registers are{' '}
-            {fittingRegisters.join(' or ')}.{' '}
-            <strong>{getRegisterConfig(expressionToShow.register).label}</strong>{' '}
-            {fits ? 'is one of them.' : 'is not.'}
-          </p>
+        <div className="lp-feedback" data-state={wasCorrect ? 'correct' : 'wrong'}>
+          <span className="fb-icon">
+            {wasCorrect ? <IconCheck size={16} /> : <IconX size={16} />}
+          </span>
+          <div>
+            <div className="fb-title">
+              {wasCorrect
+                ? 'Correct.'
+                : `Not quite. That expression ${fits ? 'fits' : 'does not fit'} this context.`}
+            </div>
+            <div className="fb-body">
+              For {context.toLowerCase()}, the fitting registers are {fittingRegisters.join(' or ')}.{' '}
+              {getRegisterConfig(expressionToShow.register).label} {fits ? 'is one of them.' : 'is not.'}
+            </div>
+          </div>
         </div>
       )}
     </div>

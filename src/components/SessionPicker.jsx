@@ -1,11 +1,12 @@
 import useStore from '../store/useStore'
 import themes from '../content/themes.json'
 import { countThemeExpressions } from '../utils/buildSession'
+import { IconArrow } from './Ornaments'
 
 const OPTIONS = [
-  { label: 'Quick',    count: 5 },
-  { label: 'Standard', count: 15 },
-  { label: 'Long',     count: 30 },
+  { label: 'Quick',    count: 5,  numeral: 'I.',   sub: '~3 min'  },
+  { label: 'Standard', count: 15, numeral: 'II.',  sub: '~10 min' },
+  { label: 'Long',     count: 30, numeral: 'III.', sub: '~20 min' },
 ]
 
 export default function SessionPicker() {
@@ -16,24 +17,27 @@ export default function SessionPicker() {
   const available = countThemeExpressions(selectedThemeId)
 
   return (
-    <div className="flex flex-col gap-3 w-full max-w-sm">
-      {OPTIONS.map(({ label, count }) => {
-        const sub = selectedTheme
-          ? `${count} cards from ${selectedTheme.name}`
-          : `${count} cards`
+    <div style={{ display: 'grid', gap: 10 }}>
+      {OPTIONS.map(({ label, count, numeral, sub }) => {
         const showNotice = selectedThemeId !== null && available < count
-
+        const detail = selectedTheme
+          ? `${count} cards from ${selectedTheme.name} · ${sub}`
+          : `${count} cards · ${sub}`
         return (
           <div key={label}>
             <button
               onClick={() => startSession(count)}
-              className="w-full py-5 px-6 rounded-2xl bg-white border-2 border-stone-200 hover:border-stone-400 hover:shadow-sm text-left transition-all duration-150"
+              className="lp-session-card"
             >
-              <p className="text-xl font-bold text-stone-800">{label}</p>
-              <p className="text-sm text-stone-400 mt-0.5">{sub}</p>
+              <span className="roman">{numeral}</span>
+              <div>
+                <div className="title">{label}</div>
+                <div className="sub">{detail}</div>
+              </div>
+              <span className="arrow"><IconArrow size={16} /></span>
             </button>
             {showNotice && (
-              <p className="text-xs text-stone-400 mt-1.5 px-1">
+              <p style={{ fontSize: 11, color: 'var(--color-ink-3)', marginTop: 6, paddingLeft: 6, fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>
                 Only {available} card{available === 1 ? '' : 's'} available in this theme.
               </p>
             )}

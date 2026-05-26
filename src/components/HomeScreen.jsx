@@ -2,11 +2,16 @@ import { useState } from 'react'
 import useStore from '../store/useStore'
 import SessionPicker from './SessionPicker'
 import RegisterPill from './RegisterPill'
+import RegisterDial from './RegisterDial'
 import themes from '../content/themes.json'
 import { loadState, clearState, storageAvailable } from '../utils/storage'
 import expressions from '../content/expressions.json'
 import concepts from '../content/concepts.json'
 import { getDailyExpression } from '../utils/dailyExpression'
+import {
+  BrandMark, Laurel, FleuronHeart, FleuronRotated, Asterism,
+  IconCalendar, IconArrow, IconChevron, IconShuffle, ThemeIcon,
+} from './Ornaments'
 
 const expressionMap = Object.fromEntries(expressions.map(e => [e.id, e]))
 const conceptMap = Object.fromEntries(concepts.map(c => [c.id, c]))
@@ -21,8 +26,8 @@ function computeStats() {
   const now = new Date()
   const entries = Object.entries(state.cards).filter(([id]) => validExpressionIds.has(id))
 
-  const learned = entries.filter(([, c]) => c.reps > 0).length
-  const dueToday = entries.filter(([, c]) => new Date(c.due) <= now).length
+  const learned   = entries.filter(([, c]) => c.reps > 0).length
+  const dueToday  = entries.filter(([, c]) => new Date(c.due) <= now).length
   const totalSeen = entries.length
 
   const reviewed = entries.filter(([, c]) => c.reps > 0)
@@ -78,124 +83,153 @@ export default function HomeScreen() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-50 flex flex-col items-center px-4 py-12">
+    <div className="lp-shell">
       {!storageAvailable && (
-        <div className="w-full max-w-sm mb-6 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200 text-sm text-amber-700">
-          Your browser is blocking storage, so progress will not be saved between visits.
+        <div className="lp-card" style={{ marginBottom: 16, background: 'var(--color-bad-bg)', borderColor: '#d9a795' }}>
+          <div style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 14, color: 'var(--color-bad)' }}>
+            Your browser is blocking storage, so progress will not be saved between visits.
+          </div>
         </div>
       )}
 
-      {/* Title */}
-      <div className="max-w-sm w-full text-center mb-8">
-        <h1 className="text-4xl font-bold text-stone-800 mb-2 font-serif">
-          Le Précepteur
-        </h1>
-        <p className="text-stone-500 text-base leading-relaxed">
-          Learn French the way the French actually speak it
-        </p>
+      {/* Masthead */}
+      <div className="lp-masthead">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{ width: 30, height: 30, display: 'grid', placeItems: 'center', color: 'var(--color-terra)' }}>
+            <BrandMark size={30} />
+          </span>
+          <div>
+            <div className="brand-title">Le&nbsp;Précepteur</div>
+            <div className="brand-sub">l'art du registre</div>
+          </div>
+        </div>
+        <span style={{ color: 'var(--color-terra)' }} title="French formality, charted">
+          <Laurel size={18} />
+        </span>
       </div>
 
-      {/* Expression of the Day teaser */}
+      {/* Expression of the day */}
       {dailyExpression && (
-        <button
-          onClick={openDailyExpression}
-          className="w-full max-w-sm mb-6 bg-stone-800 text-white rounded-2xl shadow-sm p-5 text-left hover:bg-stone-700 transition-colors"
-        >
-          <p className="text-xs text-stone-400 uppercase tracking-wide mb-2">Expression of the day</p>
-          <p className="text-2xl font-bold font-serif mb-1">{dailyExpression.text}</p>
+        <button className="lp-eotd" onClick={openDailyExpression}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+            <span className="lp-smallcaps" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--color-terra)' }}>
+              <IconCalendar size={12} /> Expression du jour
+            </span>
+            <IconArrow size={14} />
+          </div>
+          <div className="lp-eotd-fr">{dailyExpression.text}</div>
           {dailyConcept && (
-            <p className="text-sm text-stone-400">{dailyConcept.gloss_en}</p>
+            <div style={{ marginBottom: 14 }}>
+              <span style={{ fontFamily: 'var(--font-sans)', fontSize: 12, color: 'var(--color-ink-3)', letterSpacing: '0.08em' }}>
+                · {dailyConcept.gloss_en}
+              </span>
+            </div>
           )}
+          <RegisterDial register={dailyExpression.register} />
         </button>
       )}
 
       {/* Stats */}
-      <div className="w-full max-w-sm mb-6 bg-white rounded-2xl shadow-sm border border-stone-200 p-5">
-        <div className="grid grid-cols-3 gap-4 text-center">
+      <div className="lp-sec-head">
+        <span className="ornament"><FleuronHeart size={13} /></span>
+        <span className="label">Your progress</span>
+        <span className="rule" />
+      </div>
+
+      <div className="lp-card" style={{ padding: '4px 0' }}>
+        <div className="lp-stats">
           <div>
-            <p className="text-2xl font-bold text-stone-800">{stats.learned}</p>
-            <p className="text-xs text-stone-400 mt-0.5">Cards learned</p>
+            <div className="num">{stats.learned}</div>
+            <div className="lp-smallcaps lbl">Learned</div>
           </div>
           <div>
-            <p className="text-2xl font-bold text-stone-800">{stats.dueToday}</p>
-            <p className="text-xs text-stone-400 mt-0.5">Due today</p>
+            <div className="num">{stats.dueToday}</div>
+            <div className="lp-smallcaps lbl">Due today</div>
           </div>
           <div>
-            <p className="text-2xl font-bold text-stone-800">{stats.totalSeen}</p>
-            <p className="text-xs text-stone-400 mt-0.5">Total seen</p>
+            <div className="num">{stats.totalSeen}</div>
+            <div className="lp-smallcaps lbl">Encountered</div>
           </div>
         </div>
 
-        {stats.trickiest.length >= 3 && (
-          <div className="mt-4 pt-4 border-t border-stone-100">
-            <p className="text-xs text-stone-400 uppercase tracking-wide mb-3">Trickiest right now</p>
-            <div className="space-y-2.5">
-              {stats.trickiest.map(({ id, expression, concept }) => (
-                <button
-                  key={id}
-                  onClick={() => openExpressionDetail(id)}
-                  className="w-full flex items-center justify-between gap-3 hover:opacity-70 transition-opacity"
-                >
-                  <span className="font-serif font-bold text-stone-800 text-base">{expression.text}</span>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <RegisterPill register={expression.register} size="sm" />
-                    <span className="text-xs text-stone-400">{concept.gloss_en}</span>
-                  </div>
-                </button>
-              ))}
+        {stats.trickiest.length >= 1 && (
+          <div style={{ padding: '6px 22px 18px', borderTop: '1px solid var(--color-rule)', marginTop: 4 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingTop: 14, marginBottom: 6 }}>
+              <span className="lp-smallcaps">Trickiest right now</span>
             </div>
+            {stats.trickiest.map(({ id, expression, concept }) => (
+              <button
+                key={id}
+                className="lp-trickiest-row"
+                onClick={() => openExpressionDetail(id)}
+              >
+                <div>
+                  <div className="tr-fr">{expression.text}</div>
+                  <div className="tr-en">{concept.gloss_en}</div>
+                </div>
+                <div className="tr-meta">
+                  <RegisterPill register={expression.register} size="sm" />
+                  <IconChevron size={12} />
+                </div>
+              </button>
+            ))}
           </div>
         )}
       </div>
 
       {/* Theme picker */}
-      <div className="w-full max-w-sm mb-5">
-        <p className="text-xs text-stone-400 uppercase tracking-wide mb-2.5">Focus on</p>
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => setTheme(null)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium border-2 transition-colors ${
-              selectedThemeId === null
-                ? 'bg-stone-800 text-white border-stone-800'
-                : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400'
-            }`}
-          >
-            Mixed
-          </button>
-          {themes.map(theme => (
-            <button
-              key={theme.id}
-              onClick={() => setTheme(theme.id)}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium border-2 transition-colors ${
-                selectedThemeId === theme.id
-                  ? 'bg-stone-800 text-white border-stone-800'
-                  : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400'
-              }`}
-            >
-              {theme.name}
-            </button>
-          ))}
-        </div>
+      <div className="lp-sec-head">
+        <span className="ornament"><FleuronRotated size={13} /></span>
+        <span className="label">Focus your study</span>
+        <span className="rule" />
       </div>
 
-      {/* Session length buttons */}
+      <div className="lp-theme-grid">
+        <button
+          className="lp-theme-card"
+          data-active={selectedThemeId === null}
+          onClick={() => setTheme(null)}
+        >
+          <span className="theme-icon"><IconShuffle size={18} /></span>
+          <div>
+            <div className="theme-name">Mixed</div>
+            <div className="theme-sub">All themes blended</div>
+          </div>
+        </button>
+        {themes.map(theme => (
+          <button
+            key={theme.id}
+            className="lp-theme-card"
+            data-active={selectedThemeId === theme.id}
+            onClick={() => setTheme(theme.id)}
+          >
+            <span className="theme-icon"><ThemeIcon themeId={theme.id} size={18} /></span>
+            <div>
+              <div className="theme-name">{theme.name}</div>
+              <div className="theme-sub">{theme.description}</div>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {/* Session picker */}
+      <div className="lp-sec-head">
+        <span className="ornament"><Asterism size={13} /></span>
+        <span className="label">Begin a session</span>
+        <span className="rule" />
+      </div>
+
       <SessionPicker />
 
       {/* Footer */}
-      <div className="mt-8 text-center">
+      <div className="lp-footer">
         {lastSession && (
-          <p className="text-sm text-stone-400 mb-4">
-            Last session: {lastSession.correct} correct out of {lastSession.total}
-            {lastSession.completedAt && (
-              <span className="ml-1">({relativeDate(lastSession.completedAt)})</span>
-            )}
-          </p>
+          <div>
+            Last session — {lastSession.correct} of {lastSession.total} correct
+            {lastSession.completedAt && <> · {relativeDate(lastSession.completedAt)}</>}.
+          </div>
         )}
-
-        <button
-          onClick={handleReset}
-          className="text-xs text-stone-300 hover:text-stone-500 transition-colors"
-        >
+        <button className="reset" onClick={handleReset}>
           Reset progress
         </button>
       </div>

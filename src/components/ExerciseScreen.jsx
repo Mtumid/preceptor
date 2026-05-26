@@ -1,30 +1,47 @@
 import useStore from '../store/useStore'
 import ProgressHeader from './ProgressHeader'
 import ExerciseCard from './ExerciseCard'
+import { ModeIcon, IconArrowLeft } from './Ornaments'
+
+const MODE_LABELS = {
+  recognise_register:  'Recognise the register',
+  produce_in_register: 'Produce in register',
+  translate_across:    'Translate across registers',
+  spot_mismatch:       'Spot the mismatch',
+}
 
 export default function ExerciseScreen() {
-  const { queue, returnHome } = useStore()
+  const { queue, currentIndex, returnHome } = useStore()
+  const card = queue[currentIndex]
 
   if (queue.length === 0) {
     return (
-      <div className="min-h-screen bg-stone-50 flex flex-col items-center justify-center px-4">
-        <p className="text-stone-500 text-base mb-4">No cards available at the moment.</p>
-        <button
-          onClick={returnHome}
-          className="text-sm text-stone-400 hover:text-stone-600 transition-colors"
-        >
-          Back home
-        </button>
+      <div className="lp-shell" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '80vh', textAlign: 'center' }}>
+        <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', color: 'var(--color-ink-3)', marginBottom: 16 }}>
+          No cards available at the moment.
+        </p>
+        <button className="lp-btn lp-btn-ghost" onClick={returnHome}>← Back home</button>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-stone-50 px-4 py-8">
-      <div className="max-w-lg mx-auto">
-        <ProgressHeader />
-        <ExerciseCard />
+    <div className="lp-shell-wide">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
+        <button className="lp-back-link" onClick={returnHome}>
+          <IconArrowLeft size={12} /> Quit
+        </button>
+        {card && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--color-ink-3)' }}>
+            <ModeIcon mode={card.mode} size={16} />
+            <span className="lp-smallcaps">{MODE_LABELS[card.mode]}</span>
+          </div>
+        )}
+        <div style={{ width: 48 }} />
       </div>
+
+      <ProgressHeader />
+      <ExerciseCard />
     </div>
   )
 }

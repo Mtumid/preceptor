@@ -1,26 +1,23 @@
 import useStore from '../store/useStore'
+import { toRoman } from './Ornaments'
 
 export default function ProgressHeader() {
   const { queue, currentIndex, score } = useStore()
   const total = queue.length
-  const current = currentIndex + 1
   const pct = total > 0 ? (currentIndex / total) * 100 : 0
 
   return (
-    <div className="mb-6">
-      <div className="flex justify-between items-center mb-2">
-        <span className="text-sm text-stone-500">
-          Card {current} of {total}
-        </span>
-        <span className="text-sm text-stone-500">
-          {score.correct}/{score.total} correct
-        </span>
+    <div className="lp-progress">
+      <div className="left">
+        <span className="roman">{toRoman(currentIndex + 1)}</span>
+        <span>of {toRoman(total)}</span>
       </div>
-      <div className="h-1.5 bg-stone-200 rounded-full overflow-hidden">
-        <div
-          className="h-full bg-stone-600 rounded-full transition-all duration-300"
-          style={{ width: `${pct}%` }}
-        />
+      <div className="bar">
+        <div className="bar-fill" style={{ width: `${pct}%` }} />
+      </div>
+      <div className="right">
+        {score.correct}
+        <span style={{ color: 'var(--color-ink-4)' }}>/{score.total}</span>
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import RegisterPill from '../RegisterPill'
-import { normalizeRegister, getRegisterConfig } from '../../utils/registerConfig'
+import { normalizeRegister } from '../../utils/registerConfig'
+import RegisterDial from '../RegisterDial'
+import { IconCheck, IconX } from '../Ornaments'
 
 export default function ProduceInRegister({ card, onAnswer }) {
   const [selectedId, setSelectedId] = useState(null)
@@ -14,76 +15,59 @@ export default function ProduceInRegister({ card, onAnswer }) {
   }
 
   const answered = selectedId !== null
+  const selectedChoice = choices.find(c => c.id === selectedId)
+  const wasCorrect = answered && normalizeRegister(selectedChoice?.register) === targetRegister
+  const correctChoice = choices.find(c => normalizeRegister(c.register) === targetRegister)
 
   return (
     <div>
-      <p className="text-sm font-medium text-stone-500 text-center mb-2 uppercase tracking-wide">
-        How do you say this in&hellip;
-      </p>
-      <div className="flex justify-center mb-3">
-        <RegisterPill register={targetRegister} />
+      <div className="lp-target-line">
+        How do you say this in{' '}
+        <span style={{ color: 'var(--color-terra)', fontStyle: 'normal', fontWeight: 600 }}>{targetRegister}</span>?
       </div>
-      <p className="text-2xl font-semibold text-center text-stone-700 mb-8 leading-snug">
+      <div style={{ marginBottom: 18 }}>
+        <RegisterDial register={targetRegister} compact />
+      </div>
+      <p style={{ fontFamily: 'var(--font-serif)', fontSize: 20, fontWeight: 600, textAlign: 'center', color: 'var(--color-ink)', marginBottom: 20 }}>
         {concept.gloss_en}
       </p>
 
-      <div className="flex flex-col gap-3 mb-6">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 18 }}>
         {choices.map(choice => {
           const isCorrectChoice = normalizeRegister(choice.register) === targetRegister
           const isSelected = choice.id === selectedId
-
-          let bgColor = '#ffffff'
-          let borderColor = '#e7e5e4'
-          let textColor = '#44403c'
-
-          if (answered) {
-            if (isCorrectChoice) {
-              bgColor = '#f0fdf4'
-              borderColor = '#16a34a'
-              textColor = '#15803d'
-            } else if (isSelected) {
-              bgColor = '#fef2f2'
-              borderColor = '#dc2626'
-              textColor = '#b91c1c'
-            } else {
-              bgColor = '#fafaf9'
-              textColor = '#a8a29e'
-              borderColor = '#e7e5e4'
-            }
-          }
+          const state = answered ? (isCorrectChoice ? 'correct' : isSelected ? 'wrong' : 'dim') : undefined
 
           return (
             <button
               key={choice.id}
+              className="lp-choice"
+              data-state={state}
               onClick={() => handleSelect(choice)}
               disabled={answered}
-              className="py-4 px-5 rounded-xl text-xl font-bold border-2 font-serif transition-all duration-150 text-left"
-              style={{ backgroundColor: bgColor, borderColor, color: textColor }}
             >
-              {answered && isCorrectChoice && <span className="mr-2 text-base">✓</span>}
-              {answered && isSelected && !isCorrectChoice && <span className="mr-2 text-base">✗</span>}
-              {choice.text}
+              <div className="choice-text">{choice.text}</div>
+              {answered && (isCorrectChoice || isSelected) && (
+                <span className="lp-choice-mark">
+                  {isCorrectChoice ? <IconCheck size={12} /> : <IconX size={12} />}
+                </span>
+              )}
             </button>
           )
         })}
       </div>
 
       {answered && (
-        <div className={`rounded-xl p-4 border ${choices.find(c => c.id === selectedId && normalizeRegister(c.register) === targetRegister) ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'}`}>
-          {(() => {
-            const wasCorrect = normalizeRegister(choices.find(c => c.id === selectedId)?.register) === targetRegister
-            const correctChoice = choices.find(c => normalizeRegister(c.register) === targetRegister)
-            return (
-              <>
-                <p className={`text-sm font-semibold mb-1 ${wasCorrect ? 'text-emerald-700' : 'text-red-700'}`}>
-                  {wasCorrect ? 'Correct.' : `The ${targetRegister} form is "${correctChoice?.text}".`}
-                </p>
-                <p className="text-sm text-stone-600 leading-relaxed">
-                  {expression.notes}
-                </p>
-              </>
-            )
-          })()}
+        <div className="lp-feedback" data-state={wasCorrect ? 'correct' : 'wrong'}>
+          <span className="fb-icon">
+            {wasCorrect ? <IconCheck size={16} /> : <IconX size={16} />}
+          </span>
+          <div>
+            <div className="fb-title">
+              {wasCorrect ? 'Correct.' : `The ${targetRegister} form is "${correctChoice?.text}".`}
+            </div>
+            {expression.notes && <div className="fb-body">{expression.notes}</div>}
+          </div>
         </div>
       )}
     </div>
